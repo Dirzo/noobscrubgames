@@ -1,0 +1,13 @@
+{
+  "name": "noobscrubgames-site",
+  "compatibility_date": "2026-10-16",
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    {
+      "pattern": "noobscrubgames.com",
+      "custom_domain": true
+    }
+  ]
+}
