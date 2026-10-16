@@ -123,6 +123,14 @@ footer a{color:#c8c2d6;text-decoration:underline;text-underline-offset:3px}
 @keyframes beat{to{transform:scale(1.06) rotate(-2deg)}}
 body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
 
+/* game intros */
+.replay{display:block;margin:18px auto 0;background:none;border:0;color:var(--muted);font:600 13px system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;padding:8px 12px}
+.replay:hover{color:var(--gold)}
+.sol-modal{position:fixed;inset:0;z-index:90;background:#060812}
+.sol-modal[hidden]{display:none}
+.sol-modal iframe{width:100%;height:100%;border:0;display:block}
+.sol-x{position:absolute;left:14px;top:max(14px,env(safe-area-inset-top));z-index:2;width:40px;height:40px;border-radius:50%;border:1px solid #c9cff588;background:#060812aa;color:#e8e4ff;font-size:16px;cursor:pointer}
+
 /* scroll reveal */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
 .reveal.in{opacity:1;transform:none}
@@ -189,6 +197,7 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
     <a class="btn" href="#games">Explore the Games ↓</a>
     <button class="btn ghost" type="button" id="release">Release the Goose</button>
   </div>
+  <button class="replay" type="button" id="replay-splash">▶ Replay the studio intro</button>
   <div class="pixel-scene">
     <div class="moon" aria-hidden="true"></div>
     <div class="hill" aria-hidden="true"></div>
@@ -212,6 +221,7 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
           <p>Draft champions, forge outrageous item combinations, and defend an evolving elemental castle against ten hordes across 50 sieges. Survive long enough to challenge the Eternal Goose.</p>
           <div class="links">
             <a class="link" href="https://manatorium.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer">Play Siege of Legends ↗</a>
+            <a class="link" href="/sol-intro.html" data-intro>▶ Watch the intro</a>
             <a class="link quiet" href="https://github.com/Dirzo/manatorium" target="_blank" rel="noopener noreferrer">Source</a>
           </div>
         </div>
@@ -266,6 +276,8 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
 </footer>
 
 <button class="music" type="button" id="music" aria-pressed="false">♪ Play the bops</button>
+<div class="sol-modal" id="sol-modal" hidden><iframe title="Siege of Legends intro" allow="autoplay; fullscreen"></iframe><button class="sol-x" type="button" aria-label="Close the intro">✕</button></div>
+<script src="/js/splash.js" defer></script>
 
 <script>
 (function(){
@@ -408,7 +420,7 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
       nextAt += STEP; step++;
     }
   }
-  function setMusic(on){
+  function setMusic(on, temp){
     try {
       getCtx();
       if (!master) { master = ctx.createGain(); master.gain.value = 0.6; master.connect(ctx.destination); }
@@ -420,7 +432,7 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
     music.setAttribute('aria-pressed', on);
     music.classList.toggle('on', on);
     document.body.classList.toggle('grooving', on && !reduced);
-    try { localStorage.setItem('music', on ? 'on' : 'off'); } catch (e) {}
+    if (!temp) try { localStorage.setItem('music', on ? 'on' : 'off'); } catch (e) {}
   }
   music.addEventListener('click', function(e){ e.stopPropagation(); setMusic(!playing); });
   var musicPref; try { musicPref = localStorage.getItem('music'); } catch (e) {}
@@ -436,6 +448,29 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
     if (!ctx) return;
     if (document.hidden) ctx.suspend(); else if (playing) ctx.resume();
   });
+
+  // Siege of Legends intros, ported from the game (see tools/build-intros.mjs)
+  function splash(){
+    if (!window.startSplash) return;
+    var wasPlaying = playing; if (wasPlaying) setMusic(false, true);
+    window.startSplash(function(){ if (wasPlaying) setMusic(true, true); });
+  }
+  document.getElementById('replay-splash').addEventListener('click', function(e){ e.stopPropagation(); splash(); });
+  var seen = false; try { seen = sessionStorage.getItem('splashSeen') === '1'; sessionStorage.setItem('splashSeen', '1'); } catch (e) {}
+  if (!seen && !reduced && !/[?&]nointro/.test(location.search)) {
+    addEventListener('load', splash);
+  }
+  var modal = document.getElementById('sol-modal'), frame = modal.querySelector('iframe'), musicWas = false;
+  function closeIntro(){ modal.hidden = true; frame.src = 'about:blank'; if (musicWas) setMusic(true, true); }
+  document.querySelectorAll('[data-intro]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      musicWas = playing; if (playing) setMusic(false, true);
+      frame.src = a.getAttribute('href'); modal.hidden = false; frame.focus();
+    });
+  });
+  modal.querySelector('.sol-x').addEventListener('click', closeIntro);
+  addEventListener('message', function(e){ if (e.source === frame.contentWindow && e.data === 'sol-intro-close') closeIntro(); });
 
   // scroll reveal
   var els = document.querySelectorAll('.reveal');
