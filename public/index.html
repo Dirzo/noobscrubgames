@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111427">
-<meta name="description" content="Noobscrub Games: small studio, big worlds. Play Siege of Legends and Andromedas. Beware the goose.">
+<meta name="description" content="Noobscrub Games: small studio, big worlds. Play Siege of Legends, Andromedas and Crazy Weapon Man. Beware the goose.">
 <meta property="og:title" content="Noobscrub Games">
 <meta property="og:description" content="Small studio. Big worlds. One very aggressive goose.">
 <meta property="og:image" content="https://noobscrubgames.com/img/siege-of-legends.png">
@@ -80,7 +80,7 @@ main{background:#171a30;border-top:6px solid #353352;padding:70px 20px 90px}
 .wrap{max-width:1100px;margin:auto}
 .section-title{font-size:clamp(30px,6vw,52px);letter-spacing:-.05em;margin:0 0 12px}
 .intro{color:var(--muted);margin:0 0 36px;line-height:1.6}
-.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px}
 .game{background:var(--panel);border:2px solid #484464;box-shadow:8px 8px 0 #0e1122;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
 .game:hover{transform:translate(-3px,-3px) rotate(-.4deg);box-shadow:11px 11px 0 #0e1122}
 .art{height:245px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#241a33}
@@ -184,7 +184,6 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
     <a href="#games">Our Games</a>
     <a href="#goose">The Goose</a>
     <a href="#about">The Studio</a>
-    <a href="https://github.com/Dirzo" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
   </nav>
 </header>
 
@@ -209,7 +208,7 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
 <main>
   <div class="wrap">
     <h2 class="section-title" id="games">Choose Your Adventure</h2>
-    <p class="intro">Castle sieges, asteroid warfare, and an alarming number of ways to lose track of time.</p>
+    <p class="intro">Castle sieges, asteroid warfare, weapons with no business existing, and an alarming number of ways to lose track of time.</p>
     <div class="games">
       <article class="game reveal">
         <a class="art" href="https://manatorium.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
@@ -222,7 +221,6 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
           <div class="links">
             <a class="link" href="https://manatorium.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer">Play Siege of Legends ↗</a>
             <a class="link" href="/sol-intro.html" data-intro>▶ Watch the intro</a>
-            <a class="link quiet" href="https://github.com/Dirzo/manatorium" target="_blank" rel="noopener noreferrer">Source</a>
           </div>
         </div>
       </article>
@@ -239,7 +237,19 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
           <p>Fight for a diggable asteroid in a real-time strategy battle. Survey hidden deposits, mine the crust, specialize your faction, and compete or cooperate in multiplayer.</p>
           <div class="links">
             <a class="link" href="https://andromedas.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer">Play Andromedas ↗</a>
-            <a class="link quiet" href="https://github.com/Dirzo/andromedas" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+        </div>
+      </article>
+      <article class="game reveal">
+        <a class="art" href="https://crazyweaponman.noobscrub.workers.dev/" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="/img/crazy-weapon-man.png" alt="" width="980" height="512" loading="lazy">
+        </a>
+        <div class="info">
+          <span class="tag">Action roguelike</span>
+          <h3>Crazy Weapon Man</h3>
+          <p>Run, jump and hack through ten zones with whatever ridiculous weapon drops next, from a Stolen Cryogenic Star to the Dread Star of Endless Audits. Geese are involved. Beat the bosses, climb the leaderboard, and visit the Museum of Bad Decisions.</p>
+          <div class="links">
+            <a class="link" href="https://crazyweaponman.noobscrub.workers.dev/" target="_blank" rel="noopener noreferrer">Play Crazy Weapon Man ↗</a>
           </div>
         </div>
       </article>
@@ -263,16 +273,13 @@ body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
       <span class="eyebrow">Who are we?</span>
       <h2 class="section-title">Proudly Noobscrub.</h2>
       <p>We make games we want to play: systems worth mastering, worlds worth exploring, and enough chaos to keep every run interesting. More to come, probably with more geese.</p>
-      <div class="links">
-        <a class="link" href="https://github.com/Dirzo" target="_blank" rel="noopener noreferrer">Follow along on GitHub ↗</a>
-      </div>
     </section>
   </div>
 </main>
 
 <footer>
   © 2026 Noobscrub Games · Made for players, by players.<br>
-  No geese were harmed. Several developers were. · <a href="https://github.com/Dirzo/noobscrubgames" target="_blank" rel="noopener noreferrer">Site source</a>
+  No geese were harmed. Several developers were.
 </footer>
 
 <button class="music" type="button" id="music" aria-pressed="false">♪ Play the bops</button>
