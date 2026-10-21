@@ -1,500 +1,152 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111427">
-<meta name="description" content="Noobscrub Games: small studio, big worlds. Play Siege of Legends, Andromedas and Crazy Weapon Man. Beware the goose.">
-<link rel="canonical" href="https://noobscrubgames.com/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Noobscrub Games">
-<meta property="og:title" content="Noobscrub Games">
-<meta property="og:description" content="Small studio. Big worlds. One very aggressive goose.">
-<meta property="og:image" content="https://noobscrubgames.com/img/siege-of-legends.png">
-<meta property="og:url" content="https://noobscrubgames.com/">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<title>Noobscrub Games: Small Studio. Big Worlds.</title>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noobscrub Games","url":"https://noobscrubgames.com/","logo":"https://noobscrubgames.com/favicon.svg","description":"Independent studio making free browser video games."}</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NoobScrub Games | Games That Don't Suck</title>
+<meta name="description" content="NoobScrub Games is an independent game studio making playable browser and mobile games: Siege of Legends, Andromedas, and Crazy Weapon Man. Play in the arcade and take the Noob or Scrub quiz.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta name="theme-color" content="#101329"><meta property="og:title" content="NoobScrub Games — The Arcade"><meta property="og:description" content="Games that don't suck. Three weird worlds, playable right here."><meta property="og:image" content="/assets/arcade-approved.png">
 <style>
-:root{color-scheme:dark;--ink:#f7edcb;--gold:#ffcf74;--muted:#b5afc7;--mint:#8ce1c6;--bg:#101326;--panel:#222541}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background-image:radial-gradient(ellipse at 50% 0%,#32325a 0,transparent 55%);overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
-:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+:root{color-scheme:dark;--gold:#ffbf60;--blue:#65f5ff;--ink:#090d21;--panel:#121831;--border:#74533d}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080918;color:#fff;font-family:system-ui,Segoe UI,sans-serif}button,a{font:inherit}button{cursor:pointer}#viewport{height:100dvh;width:100vw;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#4ae4eb #141b34;display:flex;align-items:center}#world{position:relative;flex:none;width:max(100vw,177.68dvh);aspect-ratio:1672/941;max-height:100dvh;background:#071126 url('./assets/arcade-approved.png') center center/100% 100% no-repeat;isolation:isolate}#world::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#0309182b,transparent 27%);z-index:1}.hotspot{position:absolute;z-index:2;display:block;border:2px solid transparent;background:transparent;border-radius:10px;color:transparent;outline-offset:3px;transition:box-shadow .2s,border-color .2s,background .2s}.hotspot:hover,.hotspot:focus-visible{border-color:#68f7ff;box-shadow:0 0 21px #17d9f6, inset 0 0 18px #0bd7e43a;background:#7de9ff12;outline:none}.hotspot:active{transform:scale(.99)}/* The untouched approved pixel-art painting is the source of every card crop. */
+.hotspot{z-index:4}.hit-siege{left:10%;top:60.4%;width:17%;height:7.9%}.hit-andro{left:42%;top:60.4%;width:16%;height:7.9%}.hit-cwm{left:73%;top:60.4%;width:15%;height:7.9%}.hit-quiz{left:10%;top:85%;width:17%;height:8%}.hit-patch{left:73%;top:76%;width:25%;height:21%}.hit-logo{left:35%;top:1%;width:30%;height:25%}.hit-info1{left:4%;top:69%;width:27%;height:5%}.hit-info2{left:35%;top:69%;width:29%;height:5%}.hit-info3{left:67%;top:69%;width:30%;height:5%}.hit-left{left:0;top:42%;width:3%;height:11%}.hit-right{right:0;top:42%;width:3%;height:11%}
+.card-zoom{position:absolute;z-index:3;top:0;left:0;width:10%;height:10%;border-radius:8px;background-image:url('./assets/arcade-approved.png');background-repeat:no-repeat;border:3px solid transparent;box-shadow:0 8px 20px #0008;transition:transform .3s cubic-bezier(.22,.9,.19,1),box-shadow .3s,filter .3s,border-color .3s;transform-origin:center;pointer-events:auto;cursor:pointer;will-change:transform}.card-zoom:is(:hover,:focus-visible),.card-zoom.lit{z-index:5;transform:scale(1.065);border-color:#a5fdff;box-shadow:0 0 30px #4ee9ff,0 13px 44px #000e;filter:saturate(1.14)}.card-zoom.cwm:is(:hover,:focus-visible){border-color:#ffd373;box-shadow:0 0 35px #ff9c3e,0 15px 40px #000d}.card-zoom.siege:is(:hover,:focus-visible){border-color:#ffe1a1;box-shadow:0 0 30px #ffbc59,0 15px 40px #000d}.card-zoom .card-cta{position:absolute;bottom:10%;left:28%;right:28%;height:15%;display:block;pointer-events:none}
+#world .hit-siege,#world .hit-andro,#world .hit-cwm{z-index:6;border:0;box-shadow:none;background:none}#world .hit-siege:hover,#world .hit-andro:hover,#world .hit-cwm:hover{background:#aafaff20;box-shadow:0 0 22px #69e7e9;border:2px solid #a5faff}
+@media(hover:none){.card-zoom{pointer-events:none}}
+#controls{display:none!important;position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px;align-items:center;background:#0a122bcc;padding:6px 10px;border:1px solid #65edff63;border-radius:100px;backdrop-filter:blur(9px)}#controls button{background:#26324b;color:#fff;border:1px solid #7fd6ed63;border-radius:40px;padding:7px 11px;font-weight:700;font-size:12px}#controls button:hover{background:#255671}#controls span{font-size:11px;white-space:nowrap;color:#d4edfc}#shade{position:fixed;inset:0;background:#020610d9;backdrop-filter:blur(12px);z-index:10;display:none;align-items:center;justify-content:center;padding:clamp(12px,3vw,30px)}#shade.open{display:flex}#dialog{background:linear-gradient(145deg,#202342,#0b1832 75%);border:3px solid var(--gold);box-shadow:0 0 0 5px #271426,0 0 65px #2dcbe544;width:min(100%,1100px);max-height:95dvh;border-radius:14px;display:flex;flex-direction:column;min-height:300px;overflow:hidden}#dialog header{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#17162a;padding:12px 18px;border-bottom:2px solid #866140}#dialog h2{margin:0;color:#ffca75;font-size:clamp(16px,2.5vw,27px);letter-spacing:1px;text-shadow:2px 2px #2c142b}#dialog header button,#dialog footer button,.action{border:2px solid #6ceaff;background:#163a50;color:white;border-radius:8px;padding:8px 13px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}#dialog header button:hover,#dialog footer button:hover,.action:hover{background:#1d6877}#content{overflow:auto;padding:clamp(15px,2vw,25px);line-height:1.65;min-height:100px}#content h3{color:#7ffbff}#content p{max-width:75ch}#content ul{padding-left:21px}#content iframe{width:100%;height:min(67dvh,620px);border:2px solid #4cc9e3;border-radius:7px;background:#090d14}#dialog:has(iframe){height:92dvh}#dialog:has(iframe) #content{flex:1;display:flex;flex-direction:column;padding:9px;overflow:hidden}#dialog:has(iframe) iframe{height:100%;flex:1}#dialog footer{padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:9px;border-top:1px solid #73573e;font-size:12px;color:#c4d1de;flex-wrap:wrap}.question{font-size:1.35rem;font-weight:800;margin-bottom:15px}.answers{display:grid;gap:10px}.answers button{padding:13px;text-align:left;background:#162a49;color:white;border:2px solid #4b87a1;border-radius:9px}.answers button:hover,.answers button:focus-visible{border-color:#ffe68c;background:#314062}.progress{color:#87dce9;letter-spacing:.1em;font-size:12px;text-transform:uppercase}.tag{color:#ffe39e}#toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:30;background:#132744;border:1px solid #56f2fa;border-radius:8px;padding:10px 15px;display:none}#toast.show{display:block}.link-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:700px){#world{width:max(100vw,177.68dvh)}#controls{bottom:4px}#controls span{display:none}#controls button{padding:6px 10px}#dialog{max-height:96dvh}#dialog footer{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
-/* header */
-header{max-width:1200px;margin:auto;padding:22px 20px;padding-top:max(22px,env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.logo{font-weight:950;letter-spacing:.07em;color:var(--gold);text-shadow:3px 3px #54334c;font-size:18px;display:inline-flex;align-items:center;gap:10px}
-.logo span{color:#fff}
-.logo svg{width:34px;height:30px;transition:transform .3s}
-.logo:hover svg{transform:rotate(-12deg) scale(1.15)}
-nav{display:flex;gap:6px;font-size:14px;color:#ded6ec;flex-wrap:wrap}
-nav a{padding:10px 12px;border-radius:6px;transition:color .15s,background .15s}
-nav a:hover{color:var(--gold);background:#ffffff0d}
+.preview-banner{height:clamp(150px,34vh,330px);border:2px solid #83dffa;border-radius:10px;background-image:linear-gradient(#07132625,#07132635),url('./assets/arcade-approved.png');background-size:321% 222%;background-position:0% 41%;box-shadow:inset 0 0 40px #060b27;animation:reveal 700ms ease-out}.preview-banner.andromedas{background-position:50% 41%}.preview-banner.cwm{background-position:100% 41%}@keyframes reveal{from{filter:brightness(.2);transform:scale(.98)}to{filter:brightness(1);transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.preview-banner{animation:none}}
 
-/* hero */
-.hero{max-width:1100px;margin:10px auto 0;text-align:center;padding:56px 20px 0;position:relative}
-.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.stars i{position:absolute;width:2px;height:2px;background:#fff;animation:twinkle 3s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
-.eyebrow{color:var(--mint);letter-spacing:.3em;font-size:12px;font-weight:800;text-transform:uppercase}
-.hero h1{font-size:clamp(44px,11vw,124px);line-height:.95;letter-spacing:-.06em;margin:22px 0;text-shadow:6px 7px #4c345b}
-.hero h1 .word{display:inline-block;animation:drop .7s cubic-bezier(.2,1.6,.4,1) both}
-.hero h1 .word:nth-child(2){animation-delay:.12s}
-.hero h1 em{font-style:normal;color:var(--gold);display:inline-block}
-.hero h1 em .word{animation-delay:.3s}
-.hero h1 em .word+.word{animation-delay:.42s}
-.hero h1 .word:hover{animation:wobble .5s}
-@keyframes drop{from{opacity:0;transform:translateY(-60px) rotate(-6deg)}}
-@keyframes wobble{25%{transform:rotate(-5deg) scale(1.05)}50%{transform:rotate(4deg)}75%{transform:rotate(-2deg)}}
-.hero p{max-width:560px;margin:0 auto 30px;line-height:1.7;color:#c7c2d9;font-size:18px}
-.ticker{display:inline-block;min-height:1.7em;color:var(--gold);font-weight:700;transition:opacity .3s}
-.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;background:var(--gold);color:#1d1930;padding:15px 24px;border:3px solid #ffe6a7;box-shadow:5px 5px 0 #74466a;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:13px;transition:transform .15s,box-shadow .15s;cursor:pointer;font-family:inherit}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #74466a}
-.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #74466a}
-.btn.ghost{background:transparent;color:var(--gold);border-color:var(--gold)}
+.studio-story{max-width:850px;margin:auto;padding:clamp(6px,2vw,20px)}.studio-story h3{font-size:clamp(28px,4.5vw,51px);line-height:1.1;color:#ffca72;margin:12px 0 20px;text-shadow:3px 3px #511e36}.studio-story p{font-size:clamp(15px,1.4vw,19px);line-height:1.7}.studio-story .studio-motto{font-weight:900;letter-spacing:.09em;color:#79f8f9;border-top:1px solid #508593;border-bottom:1px solid #508593;padding:14px 0;margin-top:25px}
 
-/* pixel scene + goose */
-.pixel-scene{height:170px;max-width:900px;margin:40px auto 0;position:relative;overflow:hidden}
-.moon{position:absolute;right:16%;top:6px;width:65px;height:65px;background:#ffe6a0;box-shadow:0 0 50px #ffcf7455;clip-path:polygon(15% 0,85% 0,85% 15%,100% 15%,100% 85%,85% 85%,85% 100%,15% 100%,15% 85%,0 85%,0 15%,15% 15%);animation:float 6s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(8px)}}
-.hill{position:absolute;bottom:0;width:100%;height:95px;background:#28294a;clip-path:polygon(0 70%,12% 42%,24% 65%,38% 18%,54% 75%,70% 30%,84% 65%,100% 20%,100% 100%,0 100%)}
-.hill.front{height:60px;background:#1b203a;transform:scaleX(-1)}
-.goose{position:absolute;bottom:8px;width:64px;height:56px;cursor:pointer;z-index:2;background:none;border:0;padding:0;animation:waddle-across 16s linear infinite}
-.goose svg{width:100%;height:100%;animation:bob .35s steps(2) infinite;overflow:visible}
-.goose:hover,.goose:focus-visible{animation-play-state:paused}
-@keyframes waddle-across{from{left:-80px}to{left:100%}}
-@keyframes bob{50%{transform:translateY(-3px) rotate(-3deg)}}
-.leg-a{animation:legs .35s steps(1) infinite}
-.leg-b{animation:legs .35s steps(1) infinite reverse}
-@keyframes legs{50%{opacity:0}}
-.honk{position:fixed;z-index:50;pointer-events:none;font-weight:950;color:var(--gold);font-size:22px;text-shadow:3px 3px #54334c;animation:honk-pop .9s ease-out forwards;white-space:nowrap}
-@keyframes honk-pop{from{transform:translate(-50%,0) scale(.4);opacity:1}to{transform:translate(-50%,-70px) scale(1.3) rotate(-8deg);opacity:0}}
-.stampede{position:fixed;left:0;width:60px;height:52px;z-index:40;pointer-events:none;animation:run 2.2s linear forwards}
-.stampede svg{width:100%;height:100%;animation:bob .2s steps(2) infinite}
-@keyframes run{from{transform:translateX(-80px)}to{transform:translateX(calc(100vw + 80px))}}
-.shake{animation:shake .4s}
-@keyframes shake{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
 
-/* main */
-main{background:#171a30;border-top:6px solid #353352;padding:70px 20px 90px}
-.wrap{max-width:1100px;margin:auto}
-.section-title{font-size:clamp(30px,6vw,52px);letter-spacing:-.05em;margin:0 0 12px}
-.intro{color:var(--muted);margin:0 0 36px;line-height:1.6}
-.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px}
-.game{background:var(--panel);border:2px solid #484464;box-shadow:8px 8px 0 #0e1122;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.game:hover{transform:translate(-3px,-3px) rotate(-.4deg);box-shadow:11px 11px 0 #0e1122}
-.art{height:245px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#241a33}
-.art img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;transition:transform .4s}
-.game:hover .art img{transform:scale(1.05)}
-.art.space{background:radial-gradient(circle at 70% 30%,#5669a1,#171c41 65%)}
-.planet{width:185px;height:185px;border-radius:50%;background:radial-gradient(circle at 28% 25%,#d6b28a,#b46e43 22%,#6e473b 52%,#322d42 78%);box-shadow:inset -35px -18px 25px #141627,0 0 90px #ffab5b44;animation:float 7s ease-in-out infinite}
-.ring{position:absolute;width:85%;height:35%;border:2px solid #95baf588;border-radius:50%;transform:rotate(-27deg)}
-.ship{position:absolute;width:10px;height:10px;background:#c4d9f6;clip-path:polygon(0 0,100% 50%,0 100%,25% 50%);offset-path:ellipse(42% 17% at 50% 50%);animation:orbit 9s linear infinite;top:0;left:0}
-@keyframes orbit{to{offset-distance:100%}}
-.chip{position:absolute;bottom:15px;left:20px;background:#161b31cd;padding:5px 10px;font-size:11px;letter-spacing:.14em;color:#c4d9f6}
-.info{padding:24px;display:flex;flex-direction:column;flex:1}
-.tag{color:#93dfc8;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:800}
-.info h3{font-size:29px;margin:8px 0}
-.info p{color:#c5bed5;line-height:1.6;margin:0 0 18px;flex:1}
-.links{display:flex;gap:10px 20px;flex-wrap:wrap;align-items:center}
-.link{color:var(--gold);font-weight:800;padding:8px 0}
-.link:hover{text-decoration:underline;text-underline-offset:4px}
-.link.quiet{color:var(--muted);font-weight:600}
+/* POLISHED EDITION — approved pixel artwork remains completely untouched */
+:root{--ui-cream:#f3e8cf;--ui-muted:#b8bcd2;--ui-cyan:#70e2ed}
+#viewport{scrollbar-width:none}#viewport::-webkit-scrollbar{display:none}
+#world::before{background:linear-gradient(to top,#05071c28,transparent 17%)}
+.hotspot{border:0!important;background:transparent!important;box-shadow:none!important;outline:none;transition:filter .23s ease,transform .23s ease}
+.hotspot:hover{filter:drop-shadow(0 0 12px #6ee8ff91)}.hotspot:focus-visible{outline:2px solid #a7f2ff;outline-offset:2px}
+.card-zoom{border:0;box-shadow:none;border-radius:13px;transition:transform .42s cubic-bezier(.18,.83,.23,1),filter .3s,box-shadow .42s;backface-visibility:hidden}
+.card-zoom:hover,.card-zoom:focus-visible,.card-zoom.lit{transform:scale(1.055) translateY(-.35%);border:0;box-shadow:0 22px 70px #020516b8,0 0 42px #58e5ff55;filter:saturate(1.12) brightness(1.055)}
+.card-zoom.siege:hover{box-shadow:0 22px 70px #020516b8,0 0 45px #ffcb6859}.card-zoom.cwm:hover{box-shadow:0 22px 70px #020516b8,0 0 45px #fb745c66}
+#world .hit-siege:hover,#world .hit-andro:hover,#world .hit-cwm:hover{border:0!important;box-shadow:0 0 24px #5df4ed72!important;background:#aafaff16!important}
+#shade{background:#06091bea;backdrop-filter:blur(15px) saturate(1.1);transition:opacity .22s ease;opacity:0}
+#shade.open{opacity:1}
+#dialog{width:min(1050px,calc(100vw - 36px));max-height:min(90dvh,880px);min-height:0;border:0;border-radius:21px;background:linear-gradient(160deg,#1a1f39 0%,#11162b 72%);box-shadow:0 30px 110px #0009,0 0 80px #6fe7ff0c;overflow:hidden}
+#dialog header{background:transparent;border:0;padding:21px 28px 8px}
+#dialog h2{font-family:system-ui,Segoe UI,sans-serif;color:var(--ui-cream);text-shadow:none;font-size:clamp(15px,1.9vw,21px);letter-spacing:.12em;font-weight:800}
+#dialog header button{border:0;background:#ffffff10;border-radius:999px;color:#e6eaf2;padding:10px 15px;font-size:12px;letter-spacing:.06em;transition:background .2s,transform .2s}
+#dialog header button:hover{background:#ffffff27;transform:translateY(-1px)}
+#dialog footer{background:transparent;border:0;padding:10px 28px 22px;color:#828da6;letter-spacing:.07em;font-size:10px}
+#content{padding:17px clamp(22px,4vw,44px) 28px;line-height:1.7;color:#d9dfec}
+#content h3{color:var(--ui-cream)}
+#content iframe{border:0;border-radius:13px}
+.action,#dialog footer button{border:0;border-radius:999px;background:linear-gradient(100deg,#24b4c8,#2678b9);box-shadow:0 8px 22px #00a6cb2c;color:white;padding:11px 19px;transition:filter .18s,transform .2s}
+.action:hover,#dialog footer button:hover{background:linear-gradient(100deg,#32cde0,#378dcc);filter:brightness(1.05);transform:translateY(-1px)}
+.answers button{border:1px solid #ffffff18;border-radius:13px;background:#ffffff0a;color:#eef5ff;padding:15px 18px;transition:background .2s,transform .2s,border-color .2s}
+.answers button:hover,.answers button:focus-visible{border-color:#75dce88c;background:#72dded22;transform:translateX(4px)}
+#toast{border:0;background:#20344eeb;border-radius:100px;box-shadow:0 10px 45px #0009}
+#dialog.story-mode{width:min(900px,calc(100vw - 26px));background:transparent;box-shadow:none;overflow:visible}
+#dialog.story-mode header{padding:0;justify-content:end}
+#dialog.story-mode header h2{display:none}
+#dialog.story-mode footer{display:none}
+#dialog.story-mode #content{padding:clamp(20px,4vw,50px) 18px clamp(40px,8vw,80px);overflow:visible}
+.studio-story{text-align:center;max-width:760px;margin:0 auto;padding:0}
+.studio-story .progress{font-size:11px;color:#8edcda;letter-spacing:.31em;font-weight:850}
+.studio-story h3{font-family:system-ui,Segoe UI,sans-serif;font-size:clamp(37px,6vw,65px);font-weight:810;letter-spacing:-.055em;text-shadow:none;color:#f3e8cf;line-height:1.08;margin:13px 0 24px}
+.studio-story p{max-width:640px;margin:0 auto;font-size:clamp(15px,1.7vw,19px);line-height:1.75;color:#bfc5d8}
+.studio-story .studio-motto{display:none}
+#sound-toggle{position:fixed;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));z-index:7;display:flex;align-items:center;gap:7px;background:#101b37bb;backdrop-filter:blur(12px);color:#deedf3;border:1px solid #ffffff24;border-radius:999px;padding:10px 14px;font-weight:750;font-size:11px;letter-spacing:.06em;transition:background .2s,transform .2s}
+#sound-toggle:hover{background:#20416bcc;transform:translateY(-1px)}#sound-toggle:focus-visible{outline:2px solid #6af1ff;outline-offset:3px}
+@media(max-width:700px){#sound-toggle{padding:8px 11px;font-size:10px}#dialog{width:calc(100vw - 18px)}#dialog header{padding:17px 19px 8px}#dialog footer{padding:8px 20px 18px}#dialog.story-mode{width:calc(100vw - 16px)}.studio-story h3{font-size:clamp(32px,9vw,50px)}}
+@media(prefers-reduced-motion:reduce){#shade,.card-zoom,.hotspot,.action,#sound-toggle{transition:none!important}}
 
-/* goose wanted poster */
-.wanted{margin-top:90px;display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;background:#f3e2b6;color:#3a2a2a;padding:30px;border:4px solid #ffcf74;box-shadow:10px 10px 0 #0e1122;transform:rotate(-1deg)}
-.wanted .poster-goose{background:#e7d19c;border:3px dashed #8a6a4a;padding:18px;display:flex;justify-content:center}
-.wanted .poster-goose svg{width:150px;height:130px}
-.wanted h2{font-size:clamp(34px,7vw,60px);margin:0;letter-spacing:.04em;font-family:Georgia,serif}
-.wanted .sub{font-weight:900;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:#8a3b2b}
-.wanted ul{margin:14px 0 18px;padding-left:20px;line-height:1.7}
-.wanted .btn{box-shadow:5px 5px 0 #8a6a4a}
-.honk-count{font-weight:800;margin-left:12px;font-size:14px}
 
-.about{margin-top:90px;padding:32px 24px;border:2px dashed #5e5779;text-align:center}
-.about p{max-width:650px;margin:12px auto;color:#c8c2d6;line-height:1.7}
-.about .links{justify-content:center}
-footer{text-align:center;padding:35px 20px;padding-bottom:max(35px,env(safe-area-inset-bottom));color:#8e8ca8;font-size:13px;line-height:1.8}
-footer a{color:#c8c2d6;text-decoration:underline;text-underline-offset:3px}
-
-/* music toggle */
-.music{position:fixed;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:60;background:#222541;color:var(--gold);border:2px solid var(--gold);box-shadow:4px 4px 0 #0e1122;padding:10px 14px;font:800 13px system-ui,sans-serif;letter-spacing:.05em;cursor:pointer;border-radius:4px}
-.music.on{animation:beat .357s ease-in-out infinite alternate}
-@keyframes beat{to{transform:scale(1.06) rotate(-2deg)}}
-body.grooving .hero h1 em{animation:beat .357s ease-in-out infinite alternate}
-
-/* game intros */
-.replay{display:block;margin:18px auto 0;background:none;border:0;color:var(--muted);font:600 13px system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;padding:8px 12px}
-.replay:hover{color:var(--gold)}
-.sol-modal{position:fixed;inset:0;z-index:90;background:#060812}
-.sol-modal[hidden]{display:none}
-.sol-modal iframe{width:100%;height:100%;border:0;display:block}
-.sol-x{position:absolute;left:14px;top:max(14px,env(safe-area-inset-top));z-index:2;width:40px;height:40px;border-radius:50%;border:1px solid #c9cff588;background:#060812aa;color:#e8e4ff;font-size:16px;cursor:pointer}
-
-/* scroll reveal */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
-.reveal.in{opacity:1;transform:none}
-.wanted.reveal.in{transform:rotate(-1deg)}
-
-@media(max-width:760px){
-  header{justify-content:center;text-align:center}
-  nav{justify-content:center;gap:2px}
-  .games{grid-template-columns:1fr}
-  .hero{padding-top:24px}
-  .hero p{font-size:16px}
-  .art{height:200px}
-  .hero h1{text-shadow:4px 4px #4c345b}
-  .pixel-scene{height:150px}
-  .moon{width:48px;height:48px;right:10%}
-  .wanted{grid-template-columns:1fr;text-align:center;transform:none;padding:24px 18px}
-  .wanted.reveal.in{transform:none}
-  .wanted ul{text-align:left;display:inline-block}
-  .cta .btn{width:100%;max-width:320px;text-align:center}
-  .game:hover{transform:none}
+/* LEGACY CONTRAST PASS disabled for the new dark-night artwork.
+   A low-contrast background scrim brings forward the game cards. */
+:root{--gold:#e7be82;--blue:#8bd5dd;--panel:#151b2f}
+html,body{background:#090d19}
+#world{background-color:#0b1323}
+#world::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,#0a102452 0%,#11182e32 34%,#11172f34 66%,#090f254e 100%),
+             linear-gradient(180deg,#0712241c 0%,#080d2052 30%,#080e2664 73%,#080d1d32 100%);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none
 }
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important;scroll-behavior:auto!important}
-  .goose{left:40%}
-  .reveal{opacity:1;transform:none}
+/* Keep foreground cabinet art richly colored and sharp; do not add noisy glows. */
+.card-zoom{box-shadow:0 12px 28px #03071685;filter:saturate(.92) contrast(1.05);border-radius:12px}
+.card-zoom:hover,.card-zoom:focus-visible,.card-zoom.lit{
+  transform:scale(1.042) translateY(-.25%);
+  filter:saturate(1.035) contrast(1.065) brightness(1.035);
+  box-shadow:0 23px 55px #01040dd1,0 0 22px #59c5d02b
 }
+.card-zoom.siege:hover{box-shadow:0 23px 55px #01040dd1,0 0 24px #e2aa602b}
+.card-zoom.cwm:hover{box-shadow:0 23px 55px #01040dd1,0 0 24px #e481602e}
+#world .hit-siege:hover,#world .hit-andro:hover,#world .hit-cwm:hover{background:#ffffff0b!important;box-shadow:none!important}
+.hotspot:hover{filter:none}
+#shade{background:#060b19e8;backdrop-filter:blur(12px) saturate(.75)}
+#dialog{background:linear-gradient(155deg,#1b2237,#101827 85%);box-shadow:0 22px 80px #000b}
+#dialog h2{color:#f6ecd9;text-shadow:none}
+.action{background:#23364a;color:#eff4f5;border-color:#6c9fa96a}
+.action:hover{background:#2d4a60}
+#sound-toggle{background:#0b1626d1;color:#f1f4f5;border-color:#ffffff1c}
+#sound-toggle:hover{background:#1a293ecc}
+.preview-banner{filter:saturate(.85);border-color:#81b7c36b;box-shadow:inset 0 0 36px #050b18a3}
+@media(prefers-reduced-transparency:reduce){#world::before{backdrop-filter:none;-webkit-backdrop-filter:none;background:#08122666}}
+
+
+
+/* FINAL NIGHT ARCADE: original dark pixel scene, never tinted. */
+#world::before{display:none!important;background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#world{aspect-ratio:1671/941;width:max(100vw,177.58dvh);background-size:100% 100%;image-rendering:auto}
+.card-zoom{border:0!important;border-radius:5px;filter:none;box-shadow:none;background-image:url('./assets/arcade-approved.png');}
+.card-zoom:hover,.card-zoom:focus-visible{transform:scale(1.055) translateY(-.3%);filter:brightness(1.06);box-shadow:0 16px 35px #000b,0 0 18px #a2ebf766;border-color:transparent!important}
+.card-zoom.siege:hover,.card-zoom.cwm:hover{box-shadow:0 16px 35px #000b,0 0 18px #f5ab7166}
+#world .hit-siege:hover,#world .hit-andro:hover,#world .hit-cwm:hover{background:transparent!important;border:0!important;box-shadow:none!important}
+.hotspot:focus-visible,.card-zoom:focus-visible{outline:2px dashed #d3faff;outline-offset:3px}
+.hit-siege{left:10%;top:61%;width:17%;height:7%}.hit-andro{left:43%;top:61%;width:14%;height:7%}.hit-cwm{left:74%;top:61%;width:16%;height:7%}
+.hit-quiz{left:10%;top:86%;width:17%;height:8%}.hit-patch{left:73%;top:76%;width:24%;height:18%}.hit-logo{left:37%;top:1%;width:27%;height:24%}
+.hit-info1{left:4%;top:69%;width:27%;height:5%}.hit-info2{left:35%;top:69%;width:29%;height:5%}.hit-info3{left:67%;top:69%;width:30%;height:5%}
+
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="goose" viewBox="0 0 16 14" shape-rendering="crispEdges">
-      <rect x="0" y="7" width="2" height="2" fill="#d9d4e4"/>
-      <rect x="2" y="7" width="10" height="5" fill="#fff"/>
-      <rect x="3" y="11" width="8" height="1" fill="#d9d4e4"/>
-      <rect x="4" y="8" width="5" height="2" fill="#bcb6c9"/>
-      <rect x="10" y="2" width="2" height="5" fill="#fff"/>
-      <rect x="10" y="1" width="4" height="3" fill="#fff"/>
-      <rect x="12" y="2" width="1" height="1" fill="#111"/>
-      <rect x="14" y="2" width="2" height="2" fill="#ff9a3c"/>
-      <rect x="14" y="3" width="1" height="1" fill="#e2702a"/>
-      <g class="leg-a" fill="#ff9a3c"><rect x="5" y="12" width="1" height="2"/><rect x="5" y="13" width="2" height="1"/></g>
-      <g class="leg-b" fill="#ff9a3c"><rect x="8" y="12" width="1" height="2"/><rect x="8" y="13" width="2" height="1"/></g>
-    </symbol>
-  </defs>
-</svg>
+<button id="sound-toggle" type="button" aria-pressed="false" aria-label="Enable interactive sound effects">♫ SOUND OFF</button>
+<main id="viewport" aria-label="NoobScrub Games pixel-art arcade. Swipe horizontally to explore."><section id="world" aria-label="Pixel-art game studio lobby, with Siege of Legends, Andromedas, Crazy Weapon Man and Otis the dog">
+<button class="hotspot hit-logo" aria-label="About NoobScrub Games" data-open="story"></button>
+<button class="hotspot hit-siege" aria-label="Play Siege of Legends" data-open="play-siege"></button><button class="hotspot hit-andro" aria-label="Play Andromedas" data-open="play-andromedas"></button><button class="hotspot hit-cwm" aria-label="Play Crazy Weapon Man" data-open="play-cwm"></button><button class="hotspot hit-info1" aria-label="Learn about Siege of Legends" data-open="siege"></button><button class="hotspot hit-info2" aria-label="Learn about Andromedas" data-open="andromedas"></button><button class="hotspot hit-info3" aria-label="Learn about Crazy Weapon Man" data-open="cwm"></button><button class="hotspot hit-quiz" aria-label="Take the Noob or Scrub quiz" data-open="quiz"></button><button class="hotspot hit-patch" aria-label="Read patch notes" data-open="patch"></button><button class="hotspot hit-left" aria-label="Pan left" data-pan="-1"></button><button class="hotspot hit-right" aria-label="Pan right" data-pan="1"></button>
+<button class="card-zoom siege" data-open="siege" aria-label="Preview Siege of Legends" data-x="2.3" data-y="29" data-w="31.2" data-h="45.2"></button><button class="card-zoom andro" data-open="andromedas" aria-label="Preview Andromedas" data-x="34.5" data-y="29" data-w="31.1" data-h="45.2"></button><button class="card-zoom cwm" data-open="cwm" aria-label="Preview Crazy Weapon Man" data-x="66.3" data-y="29" data-w="32.2" data-h="45.2"></button></section></main>
 
-<header>
-  <a class="logo" href="/" aria-label="Noobscrub Games home"><svg aria-hidden="true"><use href="#goose"/></svg>NOOB<span>SCRUB</span>&nbsp;GAMES</a>
-  <nav aria-label="Main">
-    <a href="#games">Our Games</a>
-    <a href="#goose">The Goose</a>
-    <a href="#about">The Studio</a>
-  </nav>
-</header>
-
-<section class="hero">
-  <div class="stars" id="stars"></div>
-  <div class="eyebrow">Independent games • questionable decisions</div>
-  <h1><span class="word">SMALL</span> <span class="word">STUDIO.</span><br><em><span class="word">BIG</span> <span class="word">WORLDS.</span></em></h1>
-  <p>We build strange, ambitious games full of strategy, discovery, and the occasional spectacular disaster.<br><span class="ticker" id="ticker">Now with 100% more goose.</span></p>
-  <div class="cta">
-    <a class="btn" href="#games">Explore the Games ↓</a>
-    <button class="btn ghost" type="button" id="release">Release the Goose</button>
-  </div>
-  <button class="replay" type="button" id="replay-splash">▶ Replay the studio intro</button>
-  <div class="pixel-scene">
-    <div class="moon" aria-hidden="true"></div>
-    <div class="hill" aria-hidden="true"></div>
-    <div class="hill front" aria-hidden="true"></div>
-    <button class="goose" type="button" id="hero-goose" aria-label="Honk the goose"><svg aria-hidden="true"><use href="#goose"/></svg></button>
-  </div>
-</section>
-
-<main>
-  <div class="wrap">
-    <h2 class="section-title" id="games">Choose Your Adventure</h2>
-    <p class="intro">Castle sieges, asteroid warfare, weapons with no business existing, and an alarming number of ways to lose track of time.</p>
-    <div class="games">
-      <article class="game reveal">
-        <a class="art" href="https://manatorium.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="/img/siege-of-legends.png" alt="" width="1440" height="1000" loading="lazy">
-        </a>
-        <div class="info">
-          <span class="tag">Castle autobattler</span>
-          <h3>Siege of Legends</h3>
-          <p>Draft champions, forge outrageous item combinations, and defend an evolving elemental castle against ten hordes across 50 sieges. Survive long enough to challenge the Eternal Goose.</p>
-          <div class="links">
-            <a class="link" href="https://manatorium.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer">Play Siege of Legends ↗</a>
-            <a class="link" href="/sol-intro.html" data-intro>▶ Watch the intro</a>
-          </div>
-        </div>
-      </article>
-      <article class="game reveal">
-        <a class="art space" href="https://andromedas.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <div class="planet"></div>
-          <div class="ring"></div>
-          <div class="ship"></div>
-          <span class="chip">SURVEY • EXTRACT • CONQUER</span>
-        </a>
-        <div class="info">
-          <span class="tag">Sci-fi strategy</span>
-          <h3>Andromedas</h3>
-          <p>Fight for a diggable asteroid in a real-time strategy battle. Survey hidden deposits, mine the crust, specialize your faction, and compete or cooperate in multiplayer.</p>
-          <div class="links">
-            <a class="link" href="https://andromedas.noobscrub.workers.dev" target="_blank" rel="noopener noreferrer">Play Andromedas ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="game reveal">
-        <a class="art" href="https://crazyweaponman.noobscrub.workers.dev/" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="/img/crazy-weapon-man.png" alt="" width="980" height="512" loading="lazy">
-        </a>
-        <div class="info">
-          <span class="tag">Action roguelike</span>
-          <h3>Crazy Weapon Man</h3>
-          <p>Run, jump and hack through ten zones with whatever ridiculous weapon drops next, from a Stolen Cryogenic Star to the Dread Star of Endless Audits. Geese are involved. Beat the bosses, climb the leaderboard, and visit the Museum of Bad Decisions.</p>
-          <div class="links">
-            <a class="link" href="https://crazyweaponman.noobscrub.workers.dev/" target="_blank" rel="noopener noreferrer">Play Crazy Weapon Man ↗</a>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <section class="wanted reveal" id="goose" aria-labelledby="wanted-title">
-      <div class="poster-goose"><svg aria-hidden="true"><use href="#goose"/></svg></div>
-      <div>
-        <div class="sub">Wanted • Dead or honking</div>
-        <h2 id="wanted-title">THE ETERNAL GOOSE</h2>
-        <ul>
-          <li>Final boss of Siege of Legends. Has never lost a staring contest.</li>
-          <li>Wanted for stealing 14 bread loaves, 3 castles and one entire save file.</li>
-          <li>Last seen waddling across this very website.</li>
-        </ul>
-        <button class="btn" type="button" id="honk-btn">Honk</button><span class="honk-count" id="honk-count" aria-live="polite"></span>
-      </div>
-    </section>
-
-    <section class="about reveal" id="about">
-      <span class="eyebrow">Who are we?</span>
-      <h2 class="section-title">Proudly Noobscrub.</h2>
-      <p>We make games we want to play: systems worth mastering, worlds worth exploring, and enough chaos to keep every run interesting. More to come, probably with more geese.</p>
-    </section>
-  </div>
-</main>
-
-<footer>
-  © 2026 Noobscrub Games · Made for players, by players.<br>
-  No geese were harmed. Several developers were.<br>
-  <a href="/privacy.html">Privacy and content</a>
-</footer>
-
-<button class="music" type="button" id="music" aria-pressed="false">♪ Play the bops</button>
-<div class="sol-modal" id="sol-modal" hidden><iframe title="Siege of Legends intro" allow="autoplay; fullscreen"></iframe><button class="sol-x" type="button" aria-label="Close the intro">✕</button></div>
-<script src="/js/splash.js" defer></script>
-
+<div id="shade" role="presentation"><section id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><header><h2 id="dialog-title">THE ARCADE</h2><button id="close" aria-label="Close window">✕ CLOSE</button></header><div id="content"></div><footer><span>NOOBSCRUB GAMES • GAMES THAT DON'T SUCK • <a href="/privacy.html" style="color:inherit">PRIVACY</a></span><button id="back-to-games" hidden>← ALL GAMES</button></footer></section></div><div id="toast" role="status"></div>
 <script>
-(function(){
-  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+(()=>{'use strict';
 
-  // twinkling stars
-  var stars = document.getElementById('stars');
-  for (var i = 0; i < 40; i++) {
-    var s = document.createElement('i');
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = Math.random() * 3 + 's';
-    stars.appendChild(s);
-  }
+let soundOn=false,audioContext=null,lastHoverTone=0;
+const soundButton=document.getElementById('sound-toggle');
+function tone(frequency=420,duration=.055,type='sine',volume=.022){if(!soundOn)return;try{audioContext??=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,audioContext.currentTime);gain.gain.setValueAtTime(.0001,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(volume,audioContext.currentTime+.008);gain.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+duration);oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.start();oscillator.stop(audioContext.currentTime+duration+.01)}catch(e){}}
+soundButton.addEventListener('click',()=>{soundOn=!soundOn;soundButton.setAttribute('aria-pressed',String(soundOn));soundButton.setAttribute('aria-label',soundOn?'Disable interactive sound effects':'Enable interactive sound effects');soundButton.textContent=soundOn?'♫ SOUND ON':'♫ SOUND OFF';tone(630,.065,'sine',.025)});
+document.addEventListener('pointerover',e=>{if(!soundOn||!e.target.closest('.card-zoom,.hit-logo,.hit-quiz,.hit-patch'))return;const t=performance.now();if(t-lastHoverTone>210){lastHoverTone=t;tone(490,.038,'sine',.012)}});
+document.addEventListener('click',e=>{if(e.target.closest('#sound-toggle'))return;if(e.target.closest('[data-open],[data-answer],[data-pan],#close,#back-to-games,.action'))tone(e.target.closest('[data-answer]')?660:420,.06,'triangle',.022)});
 
-  // rotating tagline
-  var lines = ['Now with 100% more goose.', 'Bugs are just surprise mechanics.', 'Patch notes: the goose is stronger.', 'Est. one cursed weekend.', 'Do not feed the goose. It is feeding itself.'];
-  var t = document.getElementById('ticker'), n = 0;
-  if (!reduced) setInterval(function(){
-    t.style.opacity = 0;
-    setTimeout(function(){ n = (n + 1) % lines.length; t.textContent = lines[n]; t.style.opacity = 1; }, 300);
-  }, 3500);
-
-  // honk: sound + floating text
-  var ctx;
-  function getCtx(){
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume();
-    return ctx;
-  }
-  function honkSound(){
-    try {
-      getCtx();
-      var o = ctx.createOscillator(), g = ctx.createGain(), now = ctx.currentTime;
-      o.type = 'sawtooth';
-      o.frequency.setValueAtTime(420, now);
-      o.frequency.exponentialRampToValueAtTime(250, now + 0.25);
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(now); o.stop(now + 0.32);
-    } catch (e) {}
-  }
-  var count = 0, countEl = document.getElementById('honk-count');
-  try { count = parseInt(localStorage.getItem('honks'), 10) || 0; } catch (e) {}
-  function showCount(){ if (count) countEl.textContent = count + ' honk' + (count === 1 ? '' : 's') + ' and counting'; }
-  showCount();
-  function honk(x, y){
-    honkSound();
-    var h = document.createElement('div');
-    h.className = 'honk';
-    h.textContent = ['HONK!', 'HONK HONK', 'h o n k', 'HONK?!'][Math.floor(Math.random() * 4)];
-    h.style.left = x + 'px'; h.style.top = y + 'px';
-    document.body.appendChild(h);
-    setTimeout(function(){ h.remove(); }, 900);
-    count++; showCount();
-    try { localStorage.setItem('honks', count); } catch (e) {}
-  }
-  function honkAt(el){ var r = el.getBoundingClientRect(); honk(r.left + r.width / 2, r.top - 10); }
-
-  var heroGoose = document.getElementById('hero-goose');
-  heroGoose.addEventListener('click', function(){ honkAt(heroGoose); });
-  document.getElementById('honk-btn').addEventListener('click', function(e){ honkAt(e.currentTarget); });
-
-  // stampede
-  function stampede(){
-    document.body.classList.add('shake');
-    setTimeout(function(){ document.body.classList.remove('shake'); }, 400);
-    var total = reduced ? 1 : 12;
-    for (var i = 0; i < total; i++) (function(i){
-      setTimeout(function(){
-        var g = document.createElement('div');
-        g.className = 'stampede';
-        g.style.top = (10 + Math.random() * 80) + 'vh';
-        g.style.animationDuration = (1.6 + Math.random() * 1.4) + 's';
-        g.innerHTML = '<svg aria-hidden="true"><use href="#goose"/></svg>';
-        document.body.appendChild(g);
-        setTimeout(function(){ g.remove(); }, 3200);
-        if (i % 3 === 0) honkSound();
-      }, i * 120);
-    })(i);
-  }
-  document.getElementById('release').addEventListener('click', stampede);
-
-  // secret: type "honk" anywhere
-  var typed = '';
-  document.addEventListener('keydown', function(e){
-    typed = (typed + (e.key || '')).slice(-4).toLowerCase();
-    if (typed === 'honk') stampede();
-  });
-
-  // theme song: an original chiptune loop, synthesized live. Browsers block
-  // autoplay, so it starts on the first tap/click unless the visitor muted it.
-  var music = document.getElementById('music'), playing = false, master, timer, step = 0, nextAt = 0;
-  var BPM = 168, STEP = 60 / BPM / 2;
-  var N = function(s){ return s ? 440 * Math.pow(2, (s - 69) / 12) : 0; };
-  // MIDI notes, one per eighth; 0 = rest
-  var lead = [72,0,76,79, 84,0,79,76, 77,0,81,84, 81,79,77,76, 74,0,77,81, 79,0,77,74, 76,79,76,72, 74,0,67,0,
-              72,72,76,79, 84,86,84,79, 81,0,77,81, 84,0,81,77, 79,0,76,72, 74,76,77,74, 72,0,79,0, 72,0,0,0];
-  var bass = [48,48,55,55, 53,53,57,57, 50,50,55,55, 48,48,43,43];
-  function tone(type, freq, t, dur, vol){
-    var o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = type; o.frequency.setValueAtTime(freq, t);
-    g.gain.setValueAtTime(vol, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(master);
-    o.start(t); o.stop(t + dur + 0.02);
-  }
-  var noiseBuf;
-  function hat(t, vol){
-    if (!noiseBuf) {
-      noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.05, ctx.sampleRate);
-      var d = noiseBuf.getChannelData(0);
-      for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    }
-    var s = ctx.createBufferSource(), g = ctx.createGain(), f = ctx.createBiquadFilter();
-    f.type = 'highpass'; f.frequency.value = 6000;
-    s.buffer = noiseBuf; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-    s.connect(f); f.connect(g); g.connect(master); s.start(t);
-  }
-  function kick(t){
-    var o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.12);
-    g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.15);
-    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.16);
-  }
-  function schedule(){
-    while (nextAt < ctx.currentTime + 0.12) {
-      var i = step % lead.length;
-      if (lead[i]) tone('square', N(lead[i]), nextAt, STEP * 0.9, 0.07);
-      if (step % 2 === 0) tone('triangle', N(bass[(step / 2) % bass.length]), nextAt, STEP * 1.8, 0.22);
-      if (step % 4 === 0) kick(nextAt);
-      hat(nextAt, step % 2 ? 0.05 : 0.025);
-      // the goose joins in at the end of every loop
-      if (i === lead.length - 2) { var o = ctx.createOscillator(), g = ctx.createGain();
-        o.type = 'sawtooth'; o.frequency.setValueAtTime(420, nextAt); o.frequency.exponentialRampToValueAtTime(250, nextAt + 0.25);
-        g.gain.setValueAtTime(0.12, nextAt); g.gain.exponentialRampToValueAtTime(0.0001, nextAt + 0.3);
-        o.connect(g); g.connect(master); o.start(nextAt); o.stop(nextAt + 0.32); }
-      nextAt += STEP; step++;
-    }
-  }
-  function setMusic(on, temp){
-    try {
-      getCtx();
-      if (!master) { master = ctx.createGain(); master.gain.value = 0.6; master.connect(ctx.destination); }
-    } catch (e) { return; }
-    playing = on;
-    clearInterval(timer);
-    if (on) { nextAt = ctx.currentTime + 0.05; timer = setInterval(schedule, 25); schedule(); }
-    music.textContent = on ? '♫ Mute the bops' : '♪ Play the bops';
-    music.setAttribute('aria-pressed', on);
-    music.classList.toggle('on', on);
-    document.body.classList.toggle('grooving', on && !reduced);
-    if (!temp) try { localStorage.setItem('music', on ? 'on' : 'off'); } catch (e) {}
-  }
-  music.addEventListener('click', function(e){ e.stopPropagation(); setMusic(!playing); });
-  var musicPref; try { musicPref = localStorage.getItem('music'); } catch (e) {}
-  function firstTouch(e){
-    document.removeEventListener('pointerdown', firstTouch);
-    document.removeEventListener('keydown', firstTouch);
-    if (e.target === music || musicPref === 'off') return;
-    setMusic(true);
-  }
-  document.addEventListener('pointerdown', firstTouch);
-  document.addEventListener('keydown', firstTouch);
-  document.addEventListener('visibilitychange', function(){
-    if (!ctx) return;
-    if (document.hidden) ctx.suspend(); else if (playing) ctx.resume();
-  });
-
-  // Siege of Legends intros, ported from the game (see tools/build-intros.mjs)
-  function splash(){
-    if (!window.startSplash) return;
-    var wasPlaying = playing; if (wasPlaying) setMusic(false, true);
-    window.startSplash(function(){ if (wasPlaying) setMusic(true, true); });
-  }
-  document.getElementById('replay-splash').addEventListener('click', function(e){ e.stopPropagation(); splash(); });
-  var seen = false; try { seen = sessionStorage.getItem('splashSeen') === '1'; sessionStorage.setItem('splashSeen', '1'); } catch (e) {}
-  if (!seen && !reduced && !/[?&]nointro/.test(location.search)) {
-    addEventListener('load', splash);
-  }
-  var modal = document.getElementById('sol-modal'), frame = modal.querySelector('iframe'), musicWas = false;
-  function closeIntro(){ modal.hidden = true; frame.src = 'about:blank'; if (musicWas) setMusic(true, true); }
-  document.querySelectorAll('[data-intro]').forEach(function(a){
-    a.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      musicWas = playing; if (playing) setMusic(false, true);
-      frame.src = a.getAttribute('href'); modal.hidden = false; frame.focus();
-    });
-  });
-  modal.querySelector('.sol-x').addEventListener('click', closeIntro);
-  addEventListener('message', function(e){ if (e.source === frame.contentWindow && e.data === 'sol-intro-close') closeIntro(); });
-
-  // scroll reveal
-  var els = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && !reduced) {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, {threshold: .15});
-    els.forEach(function(el){ io.observe(el); });
-  } else {
-    els.forEach(function(el){ el.classList.add('in'); });
-  }
-})();
+const games={siege:{name:'Siege of Legends',url:'https://manatorium.noobscrub.workers.dev/',genre:'Fantasy castle-defense auto-battler',description:'Draft a squad of unlikely champions, combine equipment and defend an evolving fortress. Face elemental horrors, relentless sieges, and the Eternal Goose. The odds are terrible. Your champions are worse. You might still win.'},andromedas:{name:'Andromedas',url:'https://andromedas.noobscrub.workers.dev/',genre:'Asteroid mining real-time strategy',description:'Survey mineral deposits and excavate a layered asteroid while rival crews race for its riches. Command humans, space fowl, cephalopods and reptilian Vessk, make branching tech choices and contest the final scraps of precious ore.'},cwm:{name:'Crazy Weapon Man',url:'https://crazyweaponman.noobscrub.workers.dev/',genre:'Ridiculous weapon-fueled action roguelike',description:'Fight mobs with impossible weapons, pick up loot, chain absurd upgrades and survive sprawling side-scrolling levels. Daggers, bows, hammers, staves, swords and shurikens: every run demands a new questionable weapon decision.'}};
+function syncCards(){const world=document.getElementById('world'),bounds=world.getBoundingClientRect();document.querySelectorAll('.card-zoom').forEach(el=>{let x=+el.dataset.x,y=+el.dataset.y,w=+el.dataset.w,h=+el.dataset.h;Object.assign(el.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%',backgroundSize:`${bounds.width}px ${bounds.height}px`,backgroundPosition:`${-bounds.width*x/100}px ${-bounds.height*y/100}px`});});}addEventListener('resize',syncCards);requestAnimationFrame(syncCards);
+const shade=document.getElementById('shade'),content=document.getElementById('content'),title=document.getElementById('dialog-title'),back=document.getElementById('back-to-games'),viewport=document.getElementById('viewport');let previousFocus=null,quizIndex=0,quizScore=0;const questions=[{q:'You find a legendary sword that slowly insults you. What now?',a:['Equip it. Free motivation.','Check its stats, then equip it.','Sell it and buy twelve sticks.'],s:[0,2,1]},{q:'Your team is losing the final battle. Your move?',a:['Charge in alone while screaming.','Build a plan and coordinate a comeback.','Blame the healer (there is no healer).'],s:[0,2,1]},{q:'A glowing asteroid contains unknown minerals. You…',a:['Lick it to establish dominance.','Survey it, then set up extraction.','Sell the mining rig for a cooler hat.'],s:[0,2,1]},{q:'The goose boss has entered the arena.',a:['HONK BACK.','Study the attack patterns.','Offer it the castle deed.'],s:[0,2,1]},{q:'An upgrade gives +50% damage but -50% dignity.',a:['I never had dignity.','Compare the build synergy first.','Can I take it twice?'],s:[0,2,1]}];
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function open(key){previousFocus=document.activeElement;shade.classList.add('open');document.body.style.overflow='hidden';back.hidden=!(key.startsWith('play-')||games[key]);document.getElementById('dialog').classList.toggle('story-mode',key==='story');render(key);document.getElementById('close').focus();}
+function render(key){if(key==='games'){title.textContent='CHOOSE YOUR CHAOS';content.innerHTML='<p>Three worlds. Absolutely zero respect for your free time.</p>'+Object.entries(games).map(([id,g])=>`<p><strong class="tag">${esc(g.name)}</strong> — ${esc(g.genre)}<br><button class="action" data-open="play-${id}">▶ PLAY IN THE ARCADE</button> <button class="action" data-open="${id}">ℹ DETAILS</button></p>`).join('');}
+else if(key.startsWith('play-')){const id=key.slice(5),g=games[id];if(!g)return render('games');title.textContent='▶ '+g.name;content.innerHTML=`<p class="sr-only">${esc(g.description)}</p><iframe src="${esc(g.url)}" title="Play ${esc(g.name)}" loading="eager" allow="fullscreen; gamepad; autoplay" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="link-row"><a class="action" target="_blank" rel="noopener noreferrer" href="${esc(g.url)}">↗ OPEN GAME IN NEW TAB</a><button class="action" id="fullgame">⛶ FULLSCREEN</button></div><p style="font-size:12px;margin:0">If the game stays blank, its hosting security settings may prohibit embedding. Use “Open game in new tab” instead.</p>`;document.getElementById('fullgame').onclick=()=>content.querySelector('iframe').requestFullscreen?.();}
+else if(games[key]){let g=games[key];title.textContent=g.name.toUpperCase();content.innerHTML=`<div class="preview-banner ${key}" role="img" aria-label="Pixel-art preview of ${esc(g.name)}"></div><h3>${esc(g.genre)}</h3><p>${esc(g.description)}</p><p>This is a playable, independently developed NoobScrub world. Controls and save behavior depend on each game's current build.</p><div class="link-row"><button class="action" data-open="play-${key}">▶ PLAY NOW</button></div>`;}
+else if(key==='quiz'){title.textContent='NOOB OR SCRUB?';quizIndex=0;quizScore=0;renderQuestion();}
+else if(key==='story'){title.textContent='WHO ARE WE?';content.innerHTML='<div class="studio-story"><div class="progress">WHO ARE WE?</div><h3>Proudly NoobScrub.</h3><p>We make games we want to play: systems worth mastering, worlds worth exploring, and enough chaos to keep every run interesting. More to come, probably with more geese.</p></div>';}
+else if(key==='patch'){title.textContent='PATCH NOTES & STUDIO LOG';content.innerHTML='<h3>From the workbench</h3><p><strong>Siege of Legends:</strong> Expanding its elemental castles, champion drafts, evolving fortresses, and boss encounters.</p><p><strong>Andromedas:</strong> Asteroid resources, mining crews, technology paths, and multiplayer systems.</p><p><strong>Crazy Weapon Man:</strong> Evolving weapon variety, map progression, combat feel, and mobile controls.</p><p>These are development highlights, not dated release notes. The true patch notes are the enemies we knocked back along the way.</p>';}
+else if(key==='community'){title.textContent='THE NOOBSCRUB COMMUNITY';content.innerHTML='<h3>Good games. Good people. Same bad ideas.</h3><p>Play a build, try the quiz, and tell us which hilarious disaster you caused. We are building our games in public-facing playable form and improving them a little at a time.</p><p>There is no official community server linked from this website yet. For now, share the games with someone who needs to lose an afternoon.</p>';}
+else if(key==='contact'){title.textContent='CONTACT THE STUDIO';content.innerHTML='<h3>Send a raven. Or an email.</h3><p>For feedback, collaborations, or to report an especially suspicious goose, use our contact address once it is configured.</p><p><strong>Studio:</strong> NoobScrub Games</p><p><small>No email address is shown until a real mailbox is set up—imaginary inboxes are bad at responding.</small></p>';}
+else render('games');}
+function renderQuestion(){const q=questions[quizIndex];title.textContent='NOOB OR SCRUB?';content.innerHTML=`<div class="progress">QUESTION ${quizIndex+1} OF ${questions.length}</div><p class="question">${esc(q.q)}</p><div class="answers">${q.a.map((a,i)=>`<button data-answer="${i}">${String.fromCharCode(65+i)}. ${esc(a)}</button>`).join('')}</div>`;}
+function choose(i){quizScore+=questions[quizIndex].s[i];quizIndex++;if(quizIndex<questions.length)return renderQuestion();const r=quizScore<=3?['CERTIFIED NOOB','You are not here to win. You are here to create legendary incident reports.']:quizScore>=8?['ELITE SCRUB','You min-max so hard the loading screen files a complaint.']:['THE NOOBSCRUB','Somehow brilliant, somehow terrible, and consistently entertaining.'];content.innerHTML=`<div class="progress">OFFICIAL RESULTS • DEFINITELY SCIENTIFIC</div><h3 style="font-size:2em">${r[0]}</h3><p>${r[1]}</p><p>Your chaos index: ${quizScore}/10.</p><div class="link-row"><button class="action" data-open="quiz">↻ RETAKE THE QUIZ</button><button class="action" id="share">⤴ COPY RESULT</button></div>`;document.getElementById('share').onclick=async()=>{try{await navigator.clipboard.writeText(`I got ${r[0]} on the Noob or Scrub quiz at noobscrubgames.com. ${r[1]}`);toast('RESULT COPIED!')}catch{toast('COPY NOT AVAILABLE IN THIS BROWSER')}};}
+function close(){shade.classList.remove('open');document.getElementById('dialog').classList.remove('story-mode');content.innerHTML='';back.hidden=true;previousFocus?.focus?.()}
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2600)}
+document.addEventListener('click',e=>{const target=e.target.closest('[data-open],[data-answer],[data-pan]');if(target?.dataset.open){open(target.dataset.open)}else if(target?.dataset.answer!==undefined){choose(+target.dataset.answer)}else if(target?.dataset.pan){pan(+target.dataset.pan)}});document.getElementById('close').onclick=close;back.onclick=()=>{back.hidden=true;render('games')};shade.addEventListener('click',e=>{if(e.target===shade)close()});function pan(d){viewport.scrollBy({left:Math.max(170,innerWidth*.55)*d,behavior:'smooth'})}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&shade.classList.contains('open'))close();else if(!shade.classList.contains('open')&&e.key==='ArrowRight')pan(1);else if(!shade.classList.contains('open')&&e.key==='ArrowLeft')pan(-1);if(shade.classList.contains('open')&&e.key==='Tab'){const list=[...document.querySelectorAll('#dialog button,#dialog a[href]')].filter(x=>!x.hidden&&x.offsetParent!==null);let first=list[0],last=list.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});})();
 </script>
-</body>
-</html>
+</body></html>
