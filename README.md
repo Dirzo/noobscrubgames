@@ -11,7 +11,7 @@ npm run dev
 
 ## Deploy
 
-Cloudflare Workers Builds is connected to this repo: every push to `main` runs `npx wrangler deploy` and puts the site live. Check progress in the Cloudflare dashboard under Workers & Pages, noobscrubgames, Deployments.
+Every push to `main` deploys through the GitHub Actions workflow in `.github/workflows/deploy.yml`. To redeploy without a push, open the Actions tab, pick Deploy and click Run workflow. It needs two repository secrets: `CLOUDFLARE_API_TOKEN` (a token from the "Edit Cloudflare Workers" template) and `CLOUDFLARE_ACCOUNT_ID`.
 
 To deploy by hand instead:
 
