@@ -11,14 +11,16 @@ npm run dev
 
 ## Deploy
 
-Ensure the domain is an active Cloudflare zone and authenticate Wrangler:
+Cloudflare Workers Builds is connected to this repo: every push to `main` runs `npx wrangler deploy` and puts the site live. Check progress in the Cloudflare dashboard under Workers & Pages, noobscrubgames, Deployments.
+
+To deploy by hand instead:
 
 ```bash
 npx wrangler login
 npm run deploy
 ```
 
-The Worker serves static files from `public/` and maps to `noobscrubgames.com`. GitHub pushes alone do not deploy until CI is configured.
+The Worker serves static files from `public/` and maps to `noobscrubgames.com`.
 
 ## Game intros
 
