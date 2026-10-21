@@ -109,9 +109,23 @@ html,body{background:#090d19}
 .hit-quiz{left:10%;top:86%;width:17%;height:8%}.hit-patch{left:73%;top:76%;width:24%;height:18%}.hit-logo{left:37%;top:1%;width:27%;height:24%}
 .hit-info1{left:4%;top:69%;width:27%;height:5%}.hit-info2{left:35%;top:69%;width:29%;height:5%}.hit-info3{left:67%;top:69%;width:30%;height:5%}
 
+/* GOOSE PATROL: honk counter button + geese running along the castle cliff. */
+#honk-counter{position:fixed;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));z-index:7;display:flex;align-items:center;gap:8px;background:#0b1626d1;backdrop-filter:blur(12px);color:#f1f4f5;border:1px solid #ffffff1c;border-radius:999px;padding:6px 14px 6px 8px;font-weight:800;font-size:11px;letter-spacing:.06em;transition:background .2s,transform .12s}
+#honk-counter:hover{background:#1a293ecc}#honk-counter:active{transform:scale(.94)}#honk-counter:focus-visible{outline:2px solid #6af1ff;outline-offset:3px}
+#honk-counter svg{width:26px;height:23px;display:block}#honk-counter.bump svg{animation:goose-bump .3s ease-out}#honk-count{color:#ffd84a;font-variant-numeric:tabular-nums}
+@keyframes goose-bump{40%{transform:translateY(-5px) rotate(-12deg) scale(1.2)}}
+.runner{position:absolute;z-index:3;width:1.55%;aspect-ratio:16/14;padding:0;border:0;background:none;cursor:pointer;will-change:transform}
+.runner svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 1px 0 #0009)}
+.runner .leg-a{animation:goose-step .16s steps(1) infinite}.runner .leg-b{animation:goose-step .16s steps(1) infinite reverse}
+@keyframes goose-step{50%{opacity:0}}
+.runner-honk{position:absolute;z-index:3;pointer-events:none;font-weight:950;font-size:clamp(9px,.8vw,15px);color:#fff;text-shadow:2px 2px #54334c;white-space:nowrap;animation:runner-honk .9s ease-out forwards}
+@keyframes runner-honk{from{transform:translate(-50%,0) scale(.5);opacity:1}to{transform:translate(-50%,-140%) scale(1.15);opacity:0}}
+@media(max-width:700px){#honk-counter{padding:5px 11px 5px 7px;font-size:10px}#honk-counter svg{width:22px;height:19px}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="goose" viewBox="0 0 16 14" shape-rendering="crispEdges"><rect x="0" y="7" width="2" height="2" fill="#d9d4e4"/><rect x="2" y="7" width="10" height="5" fill="#fff"/><rect x="3" y="11" width="8" height="1" fill="#d9d4e4"/><rect x="4" y="8" width="5" height="2" fill="#bcb6c9"/><rect x="10" y="2" width="2" height="5" fill="#fff"/><rect x="10" y="1" width="4" height="3" fill="#fff"/><rect x="12" y="2" width="1" height="1" fill="#111"/><rect x="14" y="2" width="2" height="2" fill="#ff9a3c"/><rect x="14" y="3" width="1" height="1" fill="#e2702a"/><g class="leg-a" fill="#ff9a3c"><rect x="5" y="12" width="1" height="2"/><rect x="5" y="13" width="2" height="1"/></g><g class="leg-b" fill="#ff9a3c"><rect x="8" y="12" width="1" height="2"/><rect x="8" y="13" width="2" height="1"/></g></symbol></defs></svg>
+<button id="honk-counter" type="button" aria-label="Honk the goose. Every honk releases another goose."><svg aria-hidden="true"><use href="#goose"/></svg><span><span id="honk-count">0</span> HONKS</span></button>
 <button id="sound-toggle" type="button" aria-pressed="false" aria-label="Enable interactive sound effects">♫ SOUND OFF</button>
 <main id="viewport" aria-label="NoobScrub Games pixel-art arcade. Swipe horizontally to explore."><section id="world" aria-label="Pixel-art game studio lobby, with Siege of Legends, Andromedas, Crazy Weapon Man and Otis the dog">
 <button class="hotspot hit-logo" aria-label="About NoobScrub Games" data-open="story"></button>
@@ -148,5 +162,38 @@ function choose(i){quizScore+=questions[quizIndex].s[i];quizIndex++;if(quizIndex
 function close(){shade.classList.remove('open');document.getElementById('dialog').classList.remove('story-mode');content.innerHTML='';back.hidden=true;previousFocus?.focus?.()}
 function toast(t){let e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2600)}
 document.addEventListener('click',e=>{const target=e.target.closest('[data-open],[data-answer],[data-pan]');if(target?.dataset.open){open(target.dataset.open)}else if(target?.dataset.answer!==undefined){choose(+target.dataset.answer)}else if(target?.dataset.pan){pan(+target.dataset.pan)}});document.getElementById('close').onclick=close;back.onclick=()=>{back.hidden=true;render('games')};shade.addEventListener('click',e=>{if(e.target===shade)close()});function pan(d){viewport.scrollBy({left:Math.max(170,innerWidth*.55)*d,behavior:'smooth'})}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&shade.classList.contains('open'))close();else if(!shade.classList.contains('open')&&e.key==='ArrowRight')pan(1);else if(!shade.classList.contains('open')&&e.key==='ArrowLeft')pan(-1);if(shade.classList.contains('open')&&e.key==='Tab'){const list=[...document.querySelectorAll('#dialog button,#dialog a[href]')].filter(x=>!x.hidden&&x.offsetParent!==null);let first=list[0],last=list.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});})();
+</script>
+<script>
+// Goose patrol: the honk counter releases geese that run along the castle cliff (top left of the painting).
+(()=>{'use strict';
+const world=document.getElementById('world'),btn=document.getElementById('honk-counter'),countEl=document.getElementById('honk-count');
+const still=matchMedia('(prefers-reduced-motion:reduce)');
+// Ground line in front of the castle, in % of the painting: [left, top] at each end.
+const PATH=[[13.6,11.6],[33.4,18.4]],H=2.45,MAX=30;
+let count=0,ctx=null;const geese=[];
+try{count=parseInt(localStorage.getItem('honks'),10)||0}catch(e){}
+function show(){countEl.textContent=count.toLocaleString();btn.setAttribute('aria-label',`Honk the goose. ${count} honks so far. Every honk releases another goose.`)}show();
+function honkSound(pitch=1){try{ctx??=new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain(),now=ctx.currentTime;o.type='sawtooth';o.frequency.setValueAtTime(420*pitch,now);o.frequency.exponentialRampToValueAtTime(250*pitch,now+.25);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.14,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+.3);o.connect(g);g.connect(ctx.destination);o.start(now);o.stop(now+.32)}catch(e){}}
+function bubble(x,y,text){const b=document.createElement('div');b.className='runner-honk';b.textContent=text;b.style.left=x+'%';b.style.top=y+'%';world.appendChild(b);setTimeout(()=>b.remove(),900)}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function spawn(){if(still.matches||geese.length>=MAX)return;const el=document.createElement('button'),rtl=Math.random()<.4;el.className='runner';el.type='button';el.tabIndex=-1;el.setAttribute('aria-hidden','true');el.innerHTML='<svg><use href="#goose"/></svg>';
+const g={el,rtl,p:0,speed:1/(4.5+Math.random()*3.5),lane:(Math.random()-.5)*1.2,phase:Math.random()*6,honk:1+Math.random()*3,panic:0};
+el.addEventListener('click',e=>{e.stopPropagation();g.panic=1.6;honk(true);bubble(pos(g)[0]+.8,pos(g)[1]-1,pick(['HONK!','HONK?!','HOOONK']))});
+world.appendChild(el);geese.push(g)}
+function pos(g){const t=g.rtl?1-g.p:g.p;return[PATH[0][0]+(PATH[1][0]-PATH[0][0])*t,PATH[0][1]+(PATH[1][1]-PATH[0][1])*t-H+g.lane]}
+let last=performance.now();
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+for(let i=geese.length-1;i>=0;i--){const g=geese[i];g.p+=g.speed*dt*(g.panic>0?2.6:1);g.panic-=dt;g.honk-=dt;g.phase+=dt*(g.panic>0?30:18);
+if(g.p>=1){g.el.remove();geese.splice(i,1);continue}
+const[x,y]=pos(g);g.el.style.left=x+'%';g.el.style.top=y+'%';g.el.style.transform=`translateY(${-Math.abs(Math.sin(g.phase))*18}%) rotate(${Math.sin(g.phase)*6}deg) scaleX(${g.rtl?-1:1})`;
+if(g.honk<=0){g.honk=2+Math.random()*4;if(Math.random()<.5)bubble(x+.8,y-1,pick(['HONK','honk','HONK!']))}}
+requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+function honk(fromGoose){count++;try{localStorage.setItem('honks',count)}catch(e){}show();honkSound(fromGoose?1.25:.9+Math.random()*.25);btn.classList.remove('bump');void btn.offsetWidth;btn.classList.add('bump')}
+btn.addEventListener('click',()=>{honk(false);spawn()});
+// A few geese are always on patrol, with more wandering through on their own.
+for(let i=0;i<3;i++)setTimeout(spawn,400+i*1300);
+(function wander(){setTimeout(()=>{if(!document.hidden&&geese.length<6)spawn();wander()},3500+Math.random()*5000)})();
+})();
 </script>
 </body></html>
