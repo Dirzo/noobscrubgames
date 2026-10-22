@@ -37,3 +37,11 @@ The three game cards on the homepage (`public/img/cards/`) are built from real g
 ```bash
 python3 tools/build-cards.py
 ```
+
+## Lobby background
+
+`public/assets/lobby-pixel.png` is the painted lobby (`art-src/lobby/arcade-painting.png`) put on a true pixel grid (4 page pixels per pixel, 48 colours), with the small lettering redrawn in bitmap fonts. The hotspots in `public/index.html` are placed on this image, so keep the layout when changing it. Rebuild with:
+
+```bash
+python3 tools/build-lobby.py
+```
