@@ -29,3 +29,19 @@ The Worker serves static files from `public/` and maps to `noobscrubgames.com`.
 ```bash
 node tools/build-intros.mjs ../manatorium
 ```
+
+## Game cards
+
+The three game cards on the homepage (`public/img/cards/`) are built from real gameplay frames in `art-src/cards/`, captured from each game's own renderer, with lettering in Crazy Weapon Man's 5x7 bitmap font. To change a frame, crop or colour, edit `tools/build-cards.py` and rebuild (needs Python with Pillow):
+
+```bash
+python3 tools/build-cards.py
+```
+
+## Lobby background
+
+`public/assets/lobby-pixel.png` is the painted lobby (`art-src/lobby/arcade-painting.png`) put on a true pixel grid (4 page pixels per pixel, 48 colours), with the small lettering redrawn in bitmap fonts. The hotspots in `public/index.html` are placed on this image, so keep the layout when changing it. Rebuild with:
+
+```bash
+python3 tools/build-lobby.py
+```
