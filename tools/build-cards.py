@@ -148,18 +148,18 @@ CARDS = [
          title_hi='#ffe08a', title_lo='#f08a2c', title_shadow='#7a1f2b', genre_col='#f4c9a8',
          btn='#c4363e', btn_light='#f06a52', btn_dark='#7a1f2b', btn_text='#f8e08e',
          play=(.247, .79), tags=['12 CASTLES', 'CHAMPIONS', '1 GOOSE'], tag_bg='#4a2a36', tag_fg='#f8e08e'),
-    dict(name='andromedas', w=260, frame='andromedas.png', crop=(1, 92),
+    dict(name='andromedas', w=269, frame='andromedas.png', crop=(1, 92),
          title='ANDROMEDAS', genre='ASTEROID MINING STRATEGY',
          panel='#141c3d', rim='#3e4f8a', rim_light='#7f9ad8', rim_dark='#1d2b6b',
          title_hi='#ffd84a', title_lo='#ffb02e', title_shadow='#c4501f', genre_col='#a8dcfd',
          btn='#2f8fd0', btn_light='#7fd0ff', btn_dark='#1d2b6b', btn_text='#f4f1e8',
-         play=(.27, .72), tags=['MINE', 'BUILD', '4 CREWS', 'CO-OP'], tag_bg='#22306a', tag_fg='#a8dcfd'),
-    dict(name='crazy-weapon-man', w=269, frame='crazy-weapon-man.png', crop=(2, 22),
+         play=(.24, .736), tags=['MINE', 'BUILD', '4 CREWS', 'CO-OP'], tag_bg='#22306a', tag_fg='#a8dcfd'),
+    dict(name='crazy-weapon-man', w=260, frame='crazy-weapon-man.png', crop=(2, 22),
          title='CRAZY WEAPON MAN', genre='WEAPON-FUELED ACTION ROGUELIKE',
          panel='#2b2442', rim='#7a4bc2', rim_light='#c39bff', rim_dark='#22107f',
          title_hi='#ffc15a', title_lo='#f06a52', title_shadow='#22107f', genre_col='#ffb3d9',
          btn='#f08a2c', btn_light='#ffc15a', btn_dark='#c4501f', btn_text='#1a1428',
-         play=(.24, .736), tags=['ABSURD WEAPONS', 'BOSSES', 'WAR GOOSE'], tag_bg='#3e3a5c', tag_fg='#f8e08e'),
+         play=(.27, .72), tags=['ABSURD WEAPONS', 'BOSSES', 'WAR GOOSE'], tag_bg='#3e3a5c', tag_fg='#f8e08e'),
 ]
 
 if __name__ == '__main__':
