@@ -110,7 +110,7 @@ body.gt-gold #honk-counter svg use{filter:drop-shadow(0 0 2px #fff)}
 .gc-golden{position:fixed;z-index:9;width:58px;height:51px;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 0 6px #ffd84a) drop-shadow(0 0 2px #fff)}
 .gc-golden svg{width:100%;height:100%;display:block;animation:gc-bob .5s ease-in-out infinite alternate}
 .gc-golden.rtl svg{transform:scaleX(-1)}.gc-golden.rtl svg{animation-name:gc-bob-r}
-.gc-golden::after{content:'';position:absolute;inset:-8px;background:radial-gradient(#ffd84a55,transparent 70%);animation:gc-blink 1s steps(2) infinite}
+.gc-golden::after{content:'';position:absolute;inset:-8px;pointer-events:none;background:radial-gradient(#ffd84a66,transparent 70%);animation:gc-glow 1s steps(2) infinite}@keyframes gc-glow{50%{opacity:.35}}
 @keyframes gc-bob{from{transform:translateY(-8px) rotate(-6deg)}to{transform:translateY(8px) rotate(6deg)}}
 @keyframes gc-bob-r{from{transform:scaleX(-1) translateY(-8px) rotate(-6deg)}to{transform:scaleX(-1) translateY(8px) rotate(6deg)}}
 
@@ -134,3 +134,21 @@ body.gt-gold #honk-counter svg use{filter:drop-shadow(0 0 2px #fff)}
 
 @media(prefers-reduced-motion:reduce){.gc-banner,.gc-banner b,#gc-panel,.gc-toast,#honk-counter.buffed,#farm-toggle.nudge,.gc-golden svg,.gc-golden::after,#gc-buffs span{animation:none!important}.gc-banner{animation:gc-fade 4.2s forwards!important}@keyframes gc-fade{85%{opacity:1}100%{opacity:0}}}
 .gc-more{display:block;width:100%;border:0;border-radius:0;background:#0b1020;color:#8fe9f1;font:10px 'Silkscreen',monospace;padding:6px;margin-bottom:4px;box-shadow:inset 0 0 0 2px #2c3870}.gc-more:hover{color:#fff;box-shadow:inset 0 0 0 2px #65f5ff}
+
+/* buy / sell toggle, perks, tooltip, wrath geese, goose rain */
+.gc-amt i{display:inline-block;width:6px}
+#gc-buildings.selling .gc-row{box-shadow:inset 0 0 0 2px #7a1f2a}#gc-buildings.selling .gc-cost{color:#ff9a9a}
+#gc-buildings.selling .gc-row:hover{box-shadow:inset 0 0 0 2px #ff7b7b}
+.gc-row.perk.got{background:#2b2410;box-shadow:inset 0 0 0 2px #ffd84a;cursor:default}.gc-row.perk.got .gc-cost{color:#ffd84a}
+#gc-fcount{color:#ffd84a;font-size:10px}
+#gc-tip{position:fixed;z-index:9;width:280px;background:#0b1020f7;color:#cfd6f0;font-size:12px;line-height:1.4;padding:10px 12px;pointer-events:none;box-shadow:0 0 0 2px #090d21,0 0 0 4px #74533d,0 12px 30px #000a}
+#gc-tip[hidden]{display:none}
+#gc-tip header{display:flex;align-items:center;gap:8px}#gc-tip header b{flex:1;font:13px 'Silkscreen',monospace;color:#fff}#gc-tip header span:last-child{font:10px 'Silkscreen',monospace;color:#8d96b8}
+#gc-tip .gc-ic svg{width:24px;height:24px}
+#gc-tip p{margin:6px 0;color:#9aa3c4;font-style:italic}#gc-tip ul{margin:0;padding-left:16px}#gc-tip li b{color:#ffd84a}
+.gc-golden.wrath{filter:drop-shadow(0 0 7px #ff2b45) drop-shadow(0 0 2px #000)}
+.gc-golden.wrath::after{background:radial-gradient(#ff2b4555,transparent 70%)}
+.gc-float.wrath{color:#ff5b6e}
+.gc-toast.wrath{box-shadow:0 0 0 2px #090d21,0 0 0 4px #c0263b,0 0 24px #ff2b4566}.gc-toast.wrath b{color:#ff7b8b}
+.gc-drop{position:fixed;top:-60px;z-index:9;width:38px;height:33px;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 0 5px #ffd84a)}
+.gc-drop svg{width:100%;height:100%;display:block;transform:rotate(25deg)}

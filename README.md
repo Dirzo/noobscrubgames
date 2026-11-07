@@ -48,4 +48,4 @@ python3 tools/build-lobby.py
 
 ## Goose Clicker
 
-The honk button on the homepage is an idle clicker game: `public/js/goose-clicker.js` (all game data and logic) and `public/css/goose-clicker.css`. Producers, upgrades, secret upgrades, trophies and lobby visual tiers are plain arrays near the top of the script (`B`, `U`, `SECRETS`, `ACH`, `VIS`), so balancing is a matter of editing numbers. Saves live in `localStorage` under `goose-clicker-v1`; the older plain `honks` count is migrated on first load and kept in sync.
+The honk button on the homepage is an idle clicker game: `public/js/goose-clicker.js` (all game data and logic) and `public/css/goose-clicker.css`. Producers, upgrades, secret upgrades, trophies and lobby visual tiers are plain arrays near the top of the script (`B`, `U`, `SYN`, `SECRETS`, `PERKS`, `ACH`, `VIS`), so balancing is a matter of editing numbers. Saves live in `localStorage` under `goose-clicker-v1`; the older plain `honks` count is migrated on first load and kept in sync.
