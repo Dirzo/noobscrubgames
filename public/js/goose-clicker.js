@@ -88,8 +88,10 @@ U.push(
 {id:'twohand',name:'Two-Handed Honking',desc:'Clicking honks twice as hard.',cost:1e4,icon:'click',unlock:()=>S.clicks>=300});
 const FINGERS=['Honk Finger','Honk Fist','Honk Elbow','Honk Shoulder','Full-Body Honk'];
 FINGERS.forEach((n,i)=>U.push({id:'finger-'+i,name:n,desc:'Each click also honks 1% of your honks per second.',cost:5e4*100**i,icon:'click',unlock:()=>S.hand>=1e3*100**i}));
-const GOS=[.1,.5,5];
+const GOS=[.1,.2,.4];
 ['Gosling Daycare','Gosling Army','Gosling Galaxy'].forEach((n,i)=>U.push({id:'gos-'+i,name:n,desc:`Goslings and clicks gain +${GOS[i]} honks/s for every non-gosling building you own.`,cost:[1e5,1e7,1e9][i],icon:'gosling',unlock:()=>own('gosling')>=[25,50,100][i]}));
+/* gosling apprentices: goslings train every other producer instead of hogging the honks */
+B.forEach(b=>{if(b.id==='gosling')return;U.push({id:'app-'+b.id,name:'Gosling Apprentices: '+b.pl,desc:`${b.pl} honk twice as hard, and gain +1% for every 5 Goslings you own.`,cost:b.base*80,icon:b.id,unlock:()=>own(b.id)>=10&&own('gosling')>=10})});
 /* synergy upgrades: two producers boost each other */
 const SYN=[['pond','farm','Irrigated Goose Pasture'],['gosling','bakery','Gosling Bread Tasters'],['farm','bakery','Farm-to-Beak Bread'],['choir','temple','Sacred Hymns of Honk'],['bakery','portal','Interdimensional Sourdough'],['mine','portal','Asteroid Wormholes'],['temple','eternal','Goose Pilgrimage'],['pond','timegoose','Pond of Ages'],['gosling','timegoose','Time-Travelling Goslings'],['choir','honkularity','Song of the End']];
 SYN.forEach(([lo,hi,n],i)=>{const L=BMAP[lo],Hb=BMAP[hi];U.push({id:'syn-'+i,name:n,desc:`SYNERGY: ${L.pl} honk +5% for every ${Hb.name} you own, and ${Hb.pl} honk +0.1% for every ${L.name}.`,cost:L.base*1000+Hb.base*10,icon:'star',unlock:()=>own(lo)>=15&&own(hi)>=15})});
@@ -154,7 +156,7 @@ const PMAP=Object.fromEntries(PERKS.map(p=>[p.id,p]));
 
 /* ---------- production math */
 function goslingBonus(){let per=0;GOS.forEach((v,i)=>{if(has('gos-'+i))per+=v});if(!per)return 0;let n=0;B.forEach(b=>{if(b.id!=='gosling')n+=own(b.id)});return per*n}
-function bldMult(b){let m=1;if(b.id==='temple'){if(has('res-0'))m*=4;if(has('res-2'))m*=2;if(has('res-4'))m*=1+.02*own('temple');if(has('res-6'))m*=1+.01*own('temple')}TIERS.forEach((t,i)=>{if(has(`${b.id}-${i}`))m*=2});SYN.forEach(([lo,hi],i)=>{if(!has('syn-'+i))return;if(b.id===lo)m*=1+.05*own(hi);if(b.id===hi)m*=1+.001*own(lo)});return m}
+function bldMult(b){let m=1;if(b.id!=='gosling'&&has('app-'+b.id))m*=2*(1+.01*Math.floor(own('gosling')/5));if(b.id==='temple'){if(has('res-0'))m*=4;if(has('res-2'))m*=2;if(has('res-4'))m*=1+.02*own('temple');if(has('res-6'))m*=1+.01*own('temple')}TIERS.forEach((t,i)=>{if(has(`${b.id}-${i}`))m*=2});SYN.forEach(([lo,hi],i)=>{if(!has('syn-'+i))return;if(b.id===lo)m*=1+.05*own(hi);if(b.id===hi)m*=1+.001*own(lo)});return m}
 function unitHps(b){return(b.hps+(b.id==='gosling'?goslingBonus():0))*bldMult(b)*globalMult()}
 const featherPct=()=>.02+(hasP('plume1')?.005:0)+(hasP('plume2')?.005:0)+(hasP('plume3')?.01:0)+(hasP('cosmic')?.01:0);
 function globalMult(){let m=1+featherPct()*S.feathers;for(const id in GLOBALS)if(has(id))m*=1+GLOBALS[id];for(let i=0;i<5;i++)if(has('morale-'+i))m*=1+.01*ach.size;if(hasP('heart'))m*=1.1;if(hasP('morale2'))m*=1+.005*ach.size;m*=1+.5*S.stars;return m}
