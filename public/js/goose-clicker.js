@@ -31,6 +31,12 @@ portal:['..cccc..','.cbbbbc.','cbddddbc','cbdwwdbc','cbdwwdbc','cbddddbc','.cbbb
 timegoose:['yyyyyyyy','.wwwwww.','..wyyw..','...yy...','...yy...','..wwyw..','.wyyyyw.','yyyyyyyy'],
 eternal:['.y.y.y..','.yyyyy..','..wwwoo.','..wkw...','..ww....','wwwwww..','wwwwwww.','.gggg...'],
 honkularity:['..pppp..','.pkkkkp.','pkkkkkkp','pkkmmkkp','pkkmmkkp','pkkkkkkp','.pkkkkp.','..pppp..'],
+vat:['.gggggg.','g.GGGG.g','g.GwwG.g','g.GwkG.g','g.GwwG.g','g.GGGG.g','.gggggg.','..ssss..'],
+prism:['...ww...','..wccw..','..wccw..','.wcyycw.','.wcyycw.','wmrttbcw','rrrttbbb','........'],
+fate:['..s..s..','.ssssss.','ssyyyyss','.sy..ys.','.sy..ys.','ssyyyyss','.ssssss.','..s..s..'],
+multiverse:['w..p..w.','.p.w.p..','p.w.w.p.','.w.p.w.p','w.p.w.p.','.p.w.p.w','p.w.p.w.','.w.p.w..'],
+doom:['..rrrr..','.rrrrrr.','rrwwwwrr','rwwkkwwr','rwwkkwwr','rrwwwwrr','.rrrrrr.','..rrrr..'],
+cstar:['...cc...','...cc...','cccccccc','.cccccc.','..cccc..','.cc..cc.','cc....cc','........'],
 click:['w.......','ww......','wkw.....','wkkw....','wkkkw...','wkkkkw..','wkkww...','ww.ww...'],
 star:['...yy...','...yy...','yyyyyyyy','.yyyyyy.','..yyyy..','.yy..yy.','yy....yy','........'],
 moon:['..yyy...','.yy.....','yy......','yy......','yy......','.yy.....','..yyy...','........'],
@@ -54,16 +60,20 @@ const B=[
 {id:'portal',name:'Honk Portal',pl:'Honk Portals',base:3.3e8,hps:44000,desc:'Opens onto a dimension made entirely of geese.'},
 {id:'timegoose',name:'Time Goose',pl:'Time Geese',base:5.1e9,hps:260000,desc:'Honks yesterday so you have honks today.'},
 {id:'eternal',name:'Eternal Goose Shrine',pl:'Eternal Goose Shrines',base:7.5e10,hps:1.6e6,desc:'The final boss of Siege of Legends, now on your payroll.'},
-{id:'honkularity',name:'Honkularity',pl:'Honkularities',base:1e12,hps:1e7,desc:'All matter becomes goose. Resistance is honk.'}];
+{id:'honkularity',name:'Honkularity',pl:'Honkularities',base:1e12,hps:1e7,desc:'All matter becomes goose. Resistance is honk.'},
+{id:'vat',name:'Goose Cloning Vat',pl:'Goose Cloning Vats',base:1.4e13,hps:6.5e7,desc:'Every goose is now three geese. All three are furious.'},
+{id:'prism',name:'Bread Prism',pl:'Bread Prisms',base:1.7e14,hps:4.3e8,desc:'Turns light into bread, and bread into honks.'},
+{id:'fate',name:'Engine of Fate',pl:'Engines of Fate',base:2.1e15,hps:2.9e9,desc:'Rewrites destiny so every possible future honks.'},
+{id:'multiverse',name:'Goose Multiverse',pl:'Goose Multiverses',base:2.6e16,hps:2.1e10,desc:'Infinite universes. Infinite geese. No bread left anywhere.'}];
 const BMAP=Object.fromEntries(B.map(b=>[b.id,b]));
 
 /* ---------- state */
-const fresh=()=>({v:1,honks:0,run:0,all:0,clicks:0,hand:0,b:{},u:[],a:[],found:[],golden:0,runners:0,feathers:0,migr:0,start:Date.now(),runStart:Date.now(),last:Date.now(),seen:1,amt:1,pets:0,duck:0,opened:0,eternals:0,fspent:0,perks:[],mode:'buy',made:{},rclicks:0,rupg:0,wrath:0,chainMax:0,sold:0,soldGos:0,ruined:0,drops:0});
+const fresh=()=>({v:1,honks:0,run:0,all:0,clicks:0,hand:0,b:{},u:[],a:[],found:[],golden:0,runners:0,feathers:0,migr:0,start:Date.now(),runStart:Date.now(),last:Date.now(),seen:1,amt:1,pets:0,duck:0,opened:0,eternals:0,fspent:0,perks:[],mode:'buy',made:{},rclicks:0,rupg:0,wrath:0,chainMax:0,sold:0,soldGos:0,ruined:0,drops:0,resReady:0,pledgeUntil:0,pledges:0,hangry:[],popped:0,popBest:0,maxStage:0,stars:0,ascAll:0,asc:0,slots:[]});
 let S=fresh(),bought=new Set,ach=new Set,found=new Set,perks=new Set,buffs=[],resetting=false,hadSave=false;
 const has=id=>bought.has(id),own=id=>S.b[id]||0,hasP=id=>perks.has(id);
 function load(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw){S=Object.assign(fresh(),JSON.parse(raw));hadSave=true}else{const old=parseInt(localStorage.getItem(OLD_KEY),10)||0;if(old>0){S.honks=S.run=S.all=S.hand=S.clicks=old}}}catch(e){}
 for(const k of['honks','run','all','clicks','hand'])if(!isFinite(S[k])||S[k]<0)S[k]=0;
-bought=new Set(S.u);ach=new Set(S.a);found=new Set(S.found);perks=new Set(S.perks);if(typeof S.made!=='object'||!S.made)S.made={};if(S.all>=100)S.seen=Math.max(S.seen,Math.floor(Math.log10(S.all)))}
+bought=new Set(S.u);ach=new Set(S.a);found=new Set(S.found);perks=new Set(S.perks);if(typeof S.made!=='object'||!S.made)S.made={};if(!Array.isArray(S.hangry))S.hangry=[];if(!Array.isArray(S.slots))S.slots=[];if(S.all>=100)S.seen=Math.max(S.seen,Math.floor(Math.log10(S.all)))}
 function serialize(){return{...S,u:[...bought],a:[...ach],found:[...found],perks:[...perks],last:Date.now()}}
 function save(){if(resetting)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(serialize()));localStorage.setItem(OLD_KEY,String(Math.floor(S.all)))}catch(e){}}
 
@@ -106,6 +116,12 @@ const SECRETS=[
 {id:'gamer',name:'Gamer Goose',desc:'+5% honks per second.',cost:1000,g:.05,hint:'The geese want you to actually play one of the games.'},
 {id:'midas',name:'Golden Goose Egg',desc:'Lucky golden geese pay out twice as much.',cost:1e5,hint:'Catch a golden goose while a goose frenzy is already running.'}];
 SECRETS.forEach(s=>{if(s.g)GLOBALS['s-'+s.id]=s.g;U.push({id:'s-'+s.id,name:s.name,desc:s.desc,cost:s.cost,icon:'secret',secret:true,unlock:()=>found.has(s.id)})});
+/* goosepocalypse research: each one opens the next after a short wait */
+const RES=[['Goose Research Lab','Goose Temples honk 4× as hard. Science is watching the geese.'],['Specialized Goslings','+1% honks per second. The goslings are taking notes.'],['Ritual Honking','Goose Temples honk twice as hard.'],['Dark Bread','+1% honks per second. Nobody knows what is in it.'],['Hive Honk','Goose Temples gain +2% for every Goose Temple. WARNING: the geese start thinking as one.'],['Unholy Feast','+1% honks per second. The flock is getting hungry.'],['Communal Honkwash','Goose Temples gain another +1% per Goose Temple. WARNING: the geese grow displeased.'],['The Goose Pact','+5% honks per second. WARNING: this starts the full Goosepocalypse.']];
+RES.forEach(([n,d],i)=>U.push({id:'res-'+i,name:n,desc:d,cost:1e11*5**i,icon:'doom',doom:true,unlock:()=>i===0?own('temple')>=6&&S.all>=1e9:has('res-'+(i-1))&&Date.now()>=S.resReady}));
+[1,3,5].forEach(i=>GLOBALS['res-'+i]=.01);GLOBALS['res-7']=.05;GLOBALS['treaty']=-.05;
+U.push({id:'treaty',name:'Goose Treaty',desc:'Ends the Goosepocalypse for good, but the flock honks 5% less. You can break it later.',cost:6.66e13,icon:'bread',doom:true,unlock:()=>researchStage()>=1&&S.pledges>=1},
+{id:'untreaty',name:'Break the Treaty',desc:'Tear up the Goose Treaty. The Goosepocalypse comes back, and so does the 5%.',cost:6.66e10,icon:'doom',doom:true,unlock:()=>has('treaty')});
 const UMAP=Object.fromEntries(U.map(u=>[u.id,u]));
 /* feather shop: permanent perks bought with Golden Feathers, kept through every migration */
 const PERKS=[
@@ -122,20 +138,40 @@ const PERKS=[
 {id:'calm',name:'Calm Waters',cost:20,req:'wings',desc:'Wrath geese show up far less often.'},
 {id:'discount2',name:'Bulk Bread Deal',cost:20,req:'discount',desc:'Upgrades cost 5% less.'},
 {id:'plume3',name:'Plumage III',cost:25,req:'plume2',desc:'Each Golden Feather gives another +1%.'},
-{id:'fortune',name:'Goose Fortune',cost:50,req:'longbuff',desc:'Lucky golden goose payouts are 50% bigger.'}];
+{id:'fortune',name:'Goose Fortune',cost:50,req:'longbuff',desc:'Lucky golden goose payouts are 50% bigger.'},
+{id:'slot1',name:'Nesting Box I',cost:30,req:'nestegg',t2:1,desc:'Pick 1 upgrade to keep through every migration.'},
+{id:'offering',name:'Sacred Bread',cost:40,req:'calm',t2:1,desc:'Bread Offerings calm the Goosepocalypse for an hour instead of 30 minutes.'},
+{id:'hangry1',name:'Iron Stomach',cost:60,req:'restful',t2:1,desc:'Hangry geese give back 30% extra when popped (up from 10%).'},
+{id:'slot2',name:'Nesting Box II',cost:120,req:'slot1',t2:1,desc:'Keep a 2nd upgrade through migrations.'},
+{id:'hangry2',name:'Bigger Floor',cost:150,req:'hangry1',t2:1,desc:'Up to 12 hangry geese can latch on (up from 10).'},
+{id:'heart',name:'Heart of the Flock',cost:200,req:'plume3',t2:1,desc:'+10% honks per second.'},
+{id:'morale2',name:'Trophy Wall',cost:300,req:'heart',t2:1,desc:'+0.5% honks per second for every trophy.'},
+{id:'slot3',name:'Nesting Box III',cost:400,req:'slot2',t2:1,desc:'Keep a 3rd upgrade through migrations.'},
+{id:'cosmic',name:'Cosmic Plumage',cost:500,req:'plume3',t2:1,desc:'Each Golden Feather gives another +1%.'},
+{id:'starter',name:'Flock Inheritance',cost:750,req:'daycare',t2:1,desc:'Every migration also starts with 10 Ponds and 10 Goose Farms.'},
+{id:'legend',name:'Goose Legend',cost:1000,req:'fortune',t2:1,desc:'Golden geese show up 20% more often and their effects last 20% longer.'}];
 const PMAP=Object.fromEntries(PERKS.map(p=>[p.id,p]));
 
 /* ---------- production math */
 function goslingBonus(){let per=0;GOS.forEach((v,i)=>{if(has('gos-'+i))per+=v});if(!per)return 0;let n=0;B.forEach(b=>{if(b.id!=='gosling')n+=own(b.id)});return per*n}
-function bldMult(b){let m=1;TIERS.forEach((t,i)=>{if(has(`${b.id}-${i}`))m*=2});SYN.forEach(([lo,hi],i)=>{if(!has('syn-'+i))return;if(b.id===lo)m*=1+.05*own(hi);if(b.id===hi)m*=1+.001*own(lo)});return m}
+function bldMult(b){let m=1;if(b.id==='temple'){if(has('res-0'))m*=4;if(has('res-2'))m*=2;if(has('res-4'))m*=1+.02*own('temple');if(has('res-6'))m*=1+.01*own('temple')}TIERS.forEach((t,i)=>{if(has(`${b.id}-${i}`))m*=2});SYN.forEach(([lo,hi],i)=>{if(!has('syn-'+i))return;if(b.id===lo)m*=1+.05*own(hi);if(b.id===hi)m*=1+.001*own(lo)});return m}
 function unitHps(b){return(b.hps+(b.id==='gosling'?goslingBonus():0))*bldMult(b)*globalMult()}
-const featherPct=()=>.02+(hasP('plume1')?.005:0)+(hasP('plume2')?.005:0)+(hasP('plume3')?.01:0);
-function globalMult(){let m=1+featherPct()*S.feathers;for(const id in GLOBALS)if(has(id))m*=1+GLOBALS[id];for(let i=0;i<5;i++)if(has('morale-'+i))m*=1+.01*ach.size;return m}
+const featherPct=()=>.02+(hasP('plume1')?.005:0)+(hasP('plume2')?.005:0)+(hasP('plume3')?.01:0)+(hasP('cosmic')?.01:0);
+function globalMult(){let m=1+featherPct()*S.feathers;for(const id in GLOBALS)if(has(id))m*=1+GLOBALS[id];for(let i=0;i<5;i++)if(has('morale-'+i))m*=1+.01*ach.size;if(hasP('heart'))m*=1.1;if(hasP('morale2'))m*=1+.005*ach.size;m*=1+.5*S.stars;return m}
 function buffMult(kind){const now=Date.now();let m=1;buffs.forEach(b=>{if(b.kind===kind&&b.until>now)m*=b.mult});return m}
 function baseHps(){let t=0;B.forEach(b=>{if(own(b.id))t+=unitHps(b)*own(b.id)});return t}
 function hps(){return baseHps()*buffMult('prod')}
 function clickPower(){let c=1;CLICKX2.forEach(id=>{if(has(id))c*=2});if(hasP('ancestral'))c*=2;if(buffs.some(b=>b.cursed&&b.until>Date.now()))c+=baseHps()*10;c+=goslingBonus();let f=0;for(let i=0;i<5;i++)if(has('finger-'+i))f++;c+=hps()*.01*f;return c*buffMult('click')}
-function featherTarget(){return Math.floor(Math.cbrt(S.all/1e9))}
+function featherTarget(){return Math.floor(Math.cbrt(Math.max(0,S.all-S.ascAll)/1e9)*(1+.25*S.stars))}
+const starGain=()=>Math.floor(Math.sqrt(S.feathers/1000));
+/* goosepocalypse state */
+const researchStage=()=>has('res-7')?3:has('res-6')?2:has('res-4')?1:0;
+const offeringOn=()=>Date.now()<S.pledgeUntil;
+const stage=()=>has('treaty')||offeringOn()?0:researchStage();
+const STAGES=['','AWOKEN','DISPLEASED','GOOSEPOCALYPSE'];
+const maxHangry=()=>hasP('hangry2')?12:10;
+const hangryFrac=()=>Math.min(1,.05*S.hangry.length);
+const offeringCost=()=>Math.max(6.66e6,hps()*1800);
 const disc=()=>hasP('discount')?.95:1,uCost=u=>u.cost*(hasP('discount2')?.95:1);
 function costOf(b,n=S.amt){const r=1.15;return Math.ceil(b.base*disc()*r**own(b.id)*(r**n-1)/(r-1))}
 function sellValue(b,n=S.amt){n=Math.min(n,own(b.id));if(n<1)return 0;const r=1.15;return Math.floor(.25*b.base*disc()*r**(own(b.id)-n)*(r**n-1)/(r-1))}
@@ -168,6 +204,17 @@ ACH.push({id:'wr50',name:'Goose Chaser',desc:'Click 50 running geese.',test:()=>
 {id:'hoard',name:'Dragon Goose Hoard',desc:'Have 1 trillion honks in the bank at once.',test:()=>S.honks>=1e12},
 {id:'never',name:'Hands Off',desc:'Make 1 million honks in one migration with 15 clicks or fewer.',test:()=>S.migr>=1&&S.run>=1e6&&S.rclicks<=15,secret:true},
 {id:'purist',name:'Purist',desc:'Make 1 billion honks in one migration without buying a single upgrade.',test:()=>S.migr>=1&&S.run>=1e9&&S.rupg===0,secret:true},
+{id:'res1',name:'Curiosity Honked the Goose',desc:'Buy your first Goosepocalypse research.',test:()=>has('res-0')||S.maxStage>0},
+{id:'gp1',name:'Awoken',desc:'Reach stage 1 of the Goosepocalypse.',test:()=>S.maxStage>=1},
+{id:'gp3',name:'Goosepocalypse Now',desc:'Reach the full Goosepocalypse.',test:()=>S.maxStage>=3},
+{id:'pledge1',name:'Bread Diplomacy',desc:'Make a Bread Offering.',test:()=>S.pledges>=1},
+{id:'pledge10',name:'Professional Bread Diplomat',desc:'Make 10 Bread Offerings.',test:()=>S.pledges>=10},
+{id:'treaty1',name:'Peace in Our Time',desc:'Sign the Goose Treaty.',test:()=>has('treaty')},
+{id:'pop1',name:'Pop!',desc:'Pop a hangry goose.',test:()=>S.popped>=1},
+{id:'pop50',name:'Hangry Hunter',desc:'Pop 50 hangry geese.',test:()=>S.popped>=50},
+{id:'popbig',name:'Fat Goose',desc:'Get 1 trillion honks back from a single hangry goose.',test:()=>S.popBest>=1e12},
+{id:'asc1',name:'Starborn',desc:'Ascend to the Goose Constellation.',test:()=>S.asc>=1},
+{id:'stars5',name:'Written in the Stars',desc:'Hold 5 Constellation Stars.',test:()=>S.stars>=5},
 {id:'broke',name:'Broke Goose',desc:'Spend your bank down to under 1 honk after reaching 1,000 total.',test:()=>S.all>=1e3&&S.honks<1,secret:true});
 
 /* ---------- sound */
@@ -242,14 +289,14 @@ btn.addEventListener('click',doClick);
 function deny(el){beep(140,.12,'square',.04);el?.classList.remove('gc-deny');void el?.offsetWidth;el?.classList.add('gc-deny')}
 function sellB(id,el){const b=BMAP[id],n=Math.min(S.amt,own(id));if(n<1)return deny(el);const v=sellValue(b,n);S.b[id]=own(id)-n;S.honks+=v;S.sold+=n;if(id==='gosling')S.soldGos++;lastAction=Date.now();beep(440,.05,'square',.03);beep(300,.07,'square',.03,.05);const r=el.getBoundingClientRect();floatAt(r.right-40,r.top+r.height/2,'+'+fmt(v));renderStore(true)}
 function buyB(id,el){if(S.mode==='sell')return sellB(id,el);const b=BMAP[id],c=costOf(b);if(S.honks<c)return deny(el);S.honks-=c;S.b[id]=own(id)+S.amt;lastAction=Date.now();beep(660,.05,'square',.035);beep(990,.06,'square',.03,.05);honkSound(1.4,.06);for(let i=0;i<Math.min(3,S.amt);i++)setTimeout(spawn,i*200);renderStore(true)}
-function buyU(id,el){const u=UMAP[id];if(!u||has(id))return;const c=uCost(u);if(S.honks<c)return deny(el);S.honks-=c;bought.add(id);S.rupg++;lastAction=Date.now();chime();if(u.secret)featherBurst(innerWidth/2,innerHeight/2,14);renderStore(true)}
+function buyU(id,el){const u=UMAP[id];if(!u||has(id))return;const c=uCost(u);if(S.honks<c)return deny(el);S.honks-=c;bought.add(id);S.rupg++;if(id.startsWith('res-'))S.resReady=Date.now()+180e3;if(id==='untreaty'){bought.delete('treaty');bought.delete('untreaty')}lastAction=Date.now();chime();if(u.secret)featherBurst(innerWidth/2,innerHeight/2,14);renderStore(true)}
 function discover(id){if(found.has(id))return;found.add(id);const s=SECRETS.find(x=>x.id===id);toast('SECRET FOUND!',`"${s.name}" is now in the store.`,'secret','secret');[392,523,659,1047].forEach((f,i)=>beep(f,.1,'triangle',.05,i*.08));renderStore(true);save()}
 
 /* ---------- golden geese */
 let nextGolden=Date.now()+rand(70,150)*1000,chain=0,chainV=0;
-const goldenFreq=()=>(has('lucky')?2:1)*(has('s-duck')?1.25:1)*(hasP('wings')?1.1:1);
-const wrathChance=()=>S.all<1e6&&!S.migr?0:hasP('calm')?.04:.13;
-const dur=sec=>Math.round(sec*(has('goldbread')?2:1)*(hasP('longbuff')?1.1:1));
+const goldenFreq=()=>(has('lucky')?2:1)*(has('s-duck')?1.25:1)*(hasP('wings')?1.1:1)*(hasP('legend')?1.2:1);
+const wrathChance=()=>{const st=stage();if(st)return[0,.33,.66,1][st];return S.all<1e6&&!S.migr?0:hasP('calm')?.04:.13};
+const dur=sec=>Math.round(sec*(has('goldbread')?2:1)*(hasP('longbuff')?1.1:1)*(hasP('legend')?1.2:1));
 function addBuff(kind,mult,secs,name,extra){buffs.push({kind,mult,until:Date.now()+secs*1000,name,...extra})}
 function weighted(p){let r=Math.random()*p.reduce((t,x)=>t+x[1],0);for(const[k,w]of p)if((r-=w)<0)return k;return p[0][0]}
 const luckyValue=()=>Math.min(S.honks*.15,hps()*900)*(has('s-midas')?2:1)*(hasP('fortune')?1.5:1)+13;
@@ -292,12 +339,14 @@ panel.innerHTML=`<header><h2>GOOSE CLICKER</h2><button type="button" id="gc-clos
 <div id="gc-buffs"></div>
 <nav class="gc-tabs" role="tablist"><button type="button" role="tab" data-tab="store" aria-selected="true">STORE</button><button type="button" role="tab" data-tab="trophies" aria-selected="false">TROPHIES</button><button type="button" role="tab" data-tab="stats" aria-selected="false">STATS</button><button type="button" role="tab" data-tab="options" aria-selected="false">MORE</button></nav>
 <div class="gc-body">
-<section data-pane="store"><h3><span>UPGRADES</span><span id="gc-secrets"></span></h3><div id="gc-upgrades"></div><h3><span>THE FLOCK</span><span class="gc-amt"><button type="button" data-mode="buy">BUY</button><button type="button" data-mode="sell">SELL</button><i></i><button type="button" data-amt="1">1</button><button type="button" data-amt="10">10</button><button type="button" data-amt="100">100</button></span></h3><div id="gc-buildings"></div></section>
+<section data-pane="store"><div id="gc-doom"></div><h3><span>UPGRADES</span><span id="gc-secrets"></span></h3><div id="gc-upgrades"></div><h3><span>THE FLOCK</span><span class="gc-amt"><button type="button" data-mode="buy">BUY</button><button type="button" data-mode="sell">SELL</button><i></i><button type="button" data-amt="1">1</button><button type="button" data-amt="10">10</button><button type="button" data-amt="100">100</button></span></h3><div id="gc-buildings"></div></section>
 <section data-pane="trophies" hidden><div id="gc-trophies"></div></section>
 <section data-pane="stats" hidden><dl id="gc-stats"></dl></section>
 <section data-pane="options" hidden>
 <h3><span>MIGRATE SOUTH</span></h3><p class="gc-note">Fly south for the winter. Your flock, upgrades and bank reset, but you earn <b>Golden Feathers</b>: each one adds honks per second forever, and you can spend them on perks below without losing that bonus. Feathers come from your all-time honks (1 at a billion, 2 at 8 billion, 3 at 27 billion...).</p><p id="gc-mig-info" class="gc-note"></p><button type="button" class="gc-btn" id="gc-migrate">MIGRATE SOUTH</button>
 <h3><span>FEATHER SHOP</span><span id="gc-fcount"></span></h3><p class="gc-note">Permanent perks. They survive every migration.</p><div id="gc-perks"></div>
+<div id="gc-slots"></div>
+<h3><span>THE GOOSE CONSTELLATION</span><span id="gc-stars"></span></h3><p class="gc-note">The second prestige layer. Once you hold 1,000 Golden Feathers you can ascend: feathers, perks and your flock all reset, and you earn <b>Constellation Stars</b>. Each star gives +50% honks per second and +25% Golden Feathers from every future migration, forever.</p><p id="gc-asc-info" class="gc-note"></p><button type="button" class="gc-btn" id="gc-ascend">ASCEND</button>
 <h3><span>SAVE</span></h3><p class="gc-note">Progress saves in this browser automatically. Copy the code to move it to another browser.</p><div class="gc-btns"><button type="button" class="gc-btn" id="gc-export">COPY SAVE CODE</button><button type="button" class="gc-btn" id="gc-import">LOAD SAVE CODE</button></div><textarea id="gc-save" rows="3" spellcheck="false" aria-label="Save code" placeholder="Paste a save code here, then press LOAD SAVE CODE"></textarea>
 <h3><span>DANGER ZONE</span></h3><button type="button" class="gc-btn danger" id="gc-wipe">WIPE ALL HONKS</button></section>
 </div><div id="gc-ticker" aria-live="off"><span></span></div>`;
@@ -314,11 +363,16 @@ if(t.dataset.b)return buyB(t.dataset.b,t);if(t.dataset.u)return buyU(t.dataset.u
 if(t.dataset.more){showAllUps=!showAllUps;renderStore(true);return}
 if(t.dataset.amt){S.amt=+t.dataset.amt;renderStore(true);return}
 if(t.dataset.mode){S.mode=t.dataset.mode;renderStore(true);return}
-if(t.dataset.perk)return buyPerk(t.dataset.perk,t)});
+if(t.dataset.perk)return buyPerk(t.dataset.perk,t);
+if(t.dataset.offer)return makeOffering(t);if(t.dataset.popall){[...S.hangry.keys()].reverse().forEach(i=>popHangry(i));return}});
 function buyPerk(id,el){const p=PMAP[id];if(!p||hasP(id))return;if((p.req&&!hasP(p.req))||S.feathers-S.fspent<p.cost)return deny(el);S.fspent+=p.cost;perks.add(id);chime();const r=el.getBoundingClientRect();featherBurst(r.left+r.width/2,r.top+r.height/2,16);toast('PERK: '+p.name,p.desc,'feather','gold');renderPane();renderStore(true);save()}
 let confirmTimer={};
 function twoStep(el,label,fn){if(el.dataset.armed){delete el.dataset.armed;el.textContent=label;fn();return}el.dataset.armed=1;el.textContent='REALLY? CLICK AGAIN';clearTimeout(confirmTimer[el.id]);confirmTimer[el.id]=setTimeout(()=>{delete el.dataset.armed;el.textContent=label},4000)}
-P('#gc-migrate').addEventListener('click',e=>{const gainF=featherTarget()-S.feathers;if(gainF<1){deny(e.currentTarget);return}twoStep(e.currentTarget,'MIGRATE SOUTH',()=>{S.feathers+=gainF;S.migr++;S.honks=hasP('nestegg')?1e4:0;S.run=0;S.b=hasP('daycare')?{gosling:10}:{};S.rclicks=0;S.rupg=0;S.made={};bought.clear();chain=0;buffs=[];S.runStart=Date.now();fanfare();featherBurst(innerWidth/2,innerHeight/2,40);toast('MIGRATED SOUTH','+'+gainF+' Golden Feathers. The flock starts over, stronger.','feather','gold');save();renderStore(true);renderPane()})});
+function resetRun(){S.honks=hasP('nestegg')?1e4:0;S.run=0;S.b=hasP('daycare')?{gosling:10}:{};if(hasP('starter'))Object.assign(S.b,{pond:10,farm:10});S.rclicks=0;S.rupg=0;S.made={};const keep=S.slots.slice(0,slotCount()).filter(id=>bought.has(id)&&UMAP[id]&&!UMAP[id].doom);bought.clear();keep.forEach(id=>bought.add(id));chain=0;buffs=[];S.hangry=[];S.pledgeUntil=0;S.resReady=0;S.runStart=Date.now();renderHangry();slotKey=''}
+P('#gc-migrate').addEventListener('click',e=>{const gainF=featherTarget()-S.feathers;if(gainF<1){deny(e.currentTarget);return}twoStep(e.currentTarget,'MIGRATE SOUTH',()=>{S.feathers+=gainF;S.migr++;resetRun();fanfare();featherBurst(innerWidth/2,innerHeight/2,40);toast('MIGRATED SOUTH','+'+gainF+' Golden Feathers. The flock starts over, stronger.','feather','gold');save();renderStore(true);renderPane()})});
+P('#gc-ascend').addEventListener('click',e=>{const g=starGain();if(g<1){deny(e.currentTarget);return}twoStep(e.currentTarget,'ASCEND',()=>{S.stars+=g;S.asc++;S.ascAll=S.all;S.feathers=0;S.fspent=0;perks.clear();S.slots=[];resetRun();renderStars();fanfare();bigBanner('ASCENDED','+'+g+' STAR'+(g>1?'S':''),'The flock rises into the Goose Constellation. Everything starts over, much stronger.');featherBurst(innerWidth/2,innerHeight/2,60);save();renderStore(true);renderPane()})});
+const slotCount=()=>hasP('slot3')?3:hasP('slot2')?2:hasP('slot1')?1:0;let slotKey='';
+panel.addEventListener('change',e=>{const sel=e.target.closest('[data-slot]');if(!sel)return;S.slots[+sel.dataset.slot]=sel.value;slotKey='';save()});
 P('#gc-export').addEventListener('click',async()=>{const code=btoa(JSON.stringify(serialize()));const ta=P('#gc-save');ta.value=code;ta.select();try{await navigator.clipboard.writeText(code);toast('SAVE COPIED','Paste it into another browser to keep honking.','feather')}catch(e){toast('SAVE CODE READY','Copy it from the box below.','feather')}});
 P('#gc-import').addEventListener('click',e=>{try{const d=JSON.parse(atob(P('#gc-save').value.trim()));if(typeof d!=='object'||!d||!('honks' in d))throw 0;localStorage.setItem(SAVE_KEY,JSON.stringify(d));resetting=true;location.reload()}catch(err){deny(e.currentTarget);toast('THAT IS NOT A SAVE','The goose has inspected it and is offended.','lock')}});
 P('#gc-wipe').addEventListener('click',e=>twoStep(e.currentTarget,'WIPE ALL HONKS',()=>{resetting=true;try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem(OLD_KEY)}catch(err){}location.reload()}));
@@ -329,21 +383,23 @@ const ups=U.filter(u=>!has(u.id)&&u.unlock()).sort((a,b)=>a.cost-b.cost);
 let maxI=0;B.forEach((b,i)=>{if(own(b.id)||S.all>=b.base)maxI=i});const shown=B.slice(0,Math.min(B.length,maxI+2));
 const key=ups.map(u=>u.id).join()+'|'+shown.length+'|'+S.amt+'|'+S.mode+'|'+perks.size;
 if(force||key!==storeKey){storeKey=key;
-const vis=showAllUps?ups:ups.slice(0,4);P('#gc-upgrades').innerHTML=!ups.length?'<p class="gc-note">No upgrades right now. Keep honking.</p>':vis.map(u=>`<button type="button" class="gc-row${u.secret?' secret':''}" data-u="${u.id}"><span class="gc-ic">${icon(u.icon)}</span><span class="gc-bn"><b>${esc(u.name)}${u.secret?' <i>SECRET</i>':''}</b><em>${esc(u.desc)}</em></span><span class="gc-cost">${fmt(uCost(u))}</span></button>`).join('')+(ups.length>4?`<button type="button" class="gc-more" data-more="1">${showAllUps?'SHOW FEWER ▴':'SHOW ALL '+ups.length+' UPGRADES ▾'}</button>`:'');
+const vis=showAllUps?ups:ups.slice(0,4);P('#gc-upgrades').innerHTML=!ups.length?'<p class="gc-note">No upgrades right now. Keep honking.</p>':vis.map(u=>`<button type="button" class="gc-row${u.secret?' secret':''}${u.doom?' doom':''}" data-u="${u.id}"><span class="gc-ic">${icon(u.icon)}</span><span class="gc-bn"><b>${esc(u.name)}${u.secret?' <i>SECRET</i>':''}</b><em>${esc(u.desc)}</em></span><span class="gc-cost">${fmt(uCost(u))}</span></button>`).join('')+(ups.length>4?`<button type="button" class="gc-more" data-more="1">${showAllUps?'SHOW FEWER ▴':'SHOW ALL '+ups.length+' UPGRADES ▾'}</button>`:'');
 P('#gc-buildings').innerHTML=shown.map((b,i)=>{const locked=!own(b.id)&&S.all<b.base&&i===shown.length-1&&i>0;return`<button type="button" class="gc-row bld${locked?' locked':''}" data-b="${b.id}"><span class="gc-ic">${icon(locked?'lock':b.id)}</span><span class="gc-bn"><b>${locked?'???':esc(b.name)}</b><span class="gc-cost"></span><em>${locked?'Keep honking to reveal.':esc(b.desc)}</em><em class="gc-each"></em></span><span class="gc-own"></span></button>`}).join('');
 panel.querySelectorAll('[data-amt]').forEach(x=>x.classList.toggle('on',+x.dataset.amt===S.amt));panel.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x.dataset.mode===S.mode));P('#gc-buildings').classList.toggle('selling',S.mode==='sell')}
-const sc=SECRETS.length;P('#gc-secrets').textContent=`SECRETS ${found.size}/${sc}`;
+renderDoom();const sc=SECRETS.length;P('#gc-secrets').textContent=`SECRETS ${found.size}/${sc}`;
 panel.querySelectorAll('[data-u]').forEach(el=>{const c=uCost(UMAP[el.dataset.u]);el.classList.toggle('poor',S.honks<c)});
 panel.querySelectorAll('[data-b]').forEach(el=>{const b=BMAP[el.dataset.b];if(S.mode==='sell'){const n=Math.min(S.amt,own(b.id));el.classList.toggle('poor',n<1);el.querySelector('.gc-cost').textContent=n?'SELL ×'+n+' · +'+fmt(sellValue(b))+' honks':'none to sell'}else{const c=costOf(b);el.classList.toggle('poor',S.honks<c);el.querySelector('.gc-cost').textContent=(S.amt>1?'×'+S.amt+' · ':'')+fmt(c)+' honks'}el.querySelector('.gc-own').textContent=own(b.id)||'';const each=el.querySelector('.gc-each');if(each&&!el.classList.contains('locked'))each.textContent=own(b.id)?`Each makes ${fmt(unitHps(b),1)}/s · total ${fmt(unitHps(b)*own(b.id),1)}/s`:`Each makes ${fmt(unitHps(b),1)}/s`})}
 function renderPane(){if(panel.hidden)return;
 if(tab==='trophies'){P('#gc-trophies').innerHTML=`<p class="gc-note">${ach.size} of ${ACH.length} trophies. Each one boosts Flock Morale upgrades.</p>`+ACH.map(a=>{const got=ach.has(a.id);return`<div class="gc-trophy${got?' got':''}"><span class="gc-ic">${icon(got?'trophy':'lock')}</span><span><b>${got||!a.secret?esc(a.name):'???'}</b><em>${got||!a.secret?esc(a.desc):'A secret trophy.'}</em></span></div>`}).join('')}
-else if(tab==='stats'){const rows=[['Honks in bank',fmt(S.honks)],['Honks this migration',fmt(S.run)],['All-time honks',fmt(S.all)],['Honks per second',fmt(hps(),1)],['Honks per click',fmt(clickPower(),1)],['Goose clicks',fmt(S.clicks)],['Hand-made honks',fmt(S.hand)],['Running geese caught',fmt(S.runners)],['Golden geese caught',fmt(S.golden)],['Buildings owned',fmt(B.reduce((t,b)=>t+own(b.id),0))],['Upgrades bought',bought.size+' / '+U.length],['Trophies',ach.size+' / '+ACH.length],['Secrets found',found.size+' / '+SECRETS.length],['Golden Feathers',S.feathers+' ('+(S.feathers-S.fspent)+' unspent)'],['Feather bonus','+'+fmt(S.feathers*featherPct()*100,1)+'%'],['Wrath geese clicked',fmt(S.wrath)],['Best chain link',fmt(S.chainMax)],['Buildings sold',fmt(S.sold)],['Migrations',S.migr],['Honking since',new Date(S.start).toLocaleDateString()],['This migration',fmtTime((Date.now()-S.runStart)/1000)]];P('#gc-stats').innerHTML=rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
+else if(tab==='stats'){const rows=[['Honks in bank',fmt(S.honks)],['Honks this migration',fmt(S.run)],['All-time honks',fmt(S.all)],['Honks per second',fmt(hps(),1)],['Honks per click',fmt(clickPower(),1)],['Goose clicks',fmt(S.clicks)],['Hand-made honks',fmt(S.hand)],['Running geese caught',fmt(S.runners)],['Golden geese caught',fmt(S.golden)],['Buildings owned',fmt(B.reduce((t,b)=>t+own(b.id),0))],['Upgrades bought',bought.size+' / '+U.length],['Trophies',ach.size+' / '+ACH.length],['Secrets found',found.size+' / '+SECRETS.length],['Golden Feathers',S.feathers+' ('+(S.feathers-S.fspent)+' unspent)'],['Feather bonus','+'+fmt(S.feathers*featherPct()*100,1)+'%'],['Wrath geese clicked',fmt(S.wrath)],['Best chain link',fmt(S.chainMax)],['Buildings sold',fmt(S.sold)],['Goosepocalypse',STAGES[stage()]||(has('treaty')?'Treaty signed':offeringOn()?'Calmed by bread':'Not started')],['Hangry geese popped',fmt(S.popped)],['Bread Offerings',fmt(S.pledges)],['Constellation Stars',S.stars+' (+'+S.stars*50+'%)'],['Ascensions',S.asc],['Migrations',S.migr],['Honking since',new Date(S.start).toLocaleDateString()],['This migration',fmtTime((Date.now()-S.runStart)/1000)]];P('#gc-stats').innerHTML=rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
 else if(tab==='options'){const t=featherTarget(),g=t-S.feathers;P('#gc-mig-info').innerHTML=g>=1?`Migrating now earns <b>+${g}</b> Golden Feather${g>1?'s':''}.`:`Next feather at ${fmtLong(1e9*(S.feathers+1)**3)} all-time honks.`;P('#gc-migrate').classList.toggle('poor',g<1);const free=S.feathers-S.fspent;P('#gc-fcount').textContent=free+' TO SPEND';
-P('#gc-perks').innerHTML=PERKS.map(p=>{const got=hasP(p.id),locked=p.req&&!hasP(p.req);return`<button type="button" class="gc-row perk${got?' got':locked||free<p.cost?' poor':''}" data-perk="${p.id}"${got?' disabled':''}><span class="gc-ic">${icon(got?'feather':locked?'lock':'feather')}</span><span class="gc-bn"><b>${esc(p.name)}</b><em>${esc(p.desc)}${locked?' Needs '+esc(PMAP[p.req].name)+'.':''}</em></span><span class="gc-cost">${got?'OWNED':p.cost+' ✦'}</span></button>`}).join('')}}
+const sg=starGain();P('#gc-stars').textContent=S.stars?S.stars+' STAR'+(S.stars>1?'S':''):'';P('#gc-asc-info').innerHTML=sg>=1?`Ascending now earns <b>+${sg}</b> Constellation Star${sg>1?'s':''}.`:`You need ${fmt(1000*(1)**2)} Golden Feathers to earn your first star (you have ${S.feathers}).`;P('#gc-ascend').classList.toggle('poor',sg<1);
+const sn=slotCount(),sk=sn+'|'+bought.size+'|'+S.slots.join();if(sk!==slotKey){slotKey=sk;const opts=[...bought].filter(id=>UMAP[id]&&!UMAP[id].doom).sort((a,b)=>UMAP[a].name.localeCompare(UMAP[b].name));P('#gc-slots').innerHTML=sn?`<h3><span>NESTING BOXES</span></h3><p class="gc-note">These upgrades stay bought when you migrate. You can only pick upgrades you own right now.</p>`+Array.from({length:sn},(_,i)=>`<select class="gc-slot" data-slot="${i}" aria-label="Nesting box ${i+1}"><option value="">(empty box)</option>${opts.map(id=>`<option value="${id}"${S.slots[i]===id?' selected':''}>${esc(UMAP[id].name)}</option>`).join('')}</select>`).join(''):''}
+P('#gc-perks').innerHTML=PERKS.map(p=>{const got=hasP(p.id),locked=p.req&&!hasP(p.req);return(p.id==='slot1'?'<p class="gc-note gc-tier">TIER II PERKS</p>':'')+`<button type="button" class="gc-row perk${got?' got':locked||free<p.cost?' poor':''}" data-perk="${p.id}"${got?' disabled':''}><span class="gc-ic">${icon(got?'feather':locked?'lock':'feather')}</span><span class="gc-bn"><b>${esc(p.name)}</b><em>${esc(p.desc)}${locked?' Needs '+esc(PMAP[p.req].name)+'.':''}</em></span><span class="gc-cost">${got?'OWNED':p.cost+' ✦'}</span></button>`}).join('')}}
 
 let lastUi=0;
 function ui(force){const now=performance.now();if(!force&&now-lastUi<90)return;lastUi=now;const h=hps(),bm=buffMult('prod'),cm=buffMult('click');
-countEl.textContent=fmt(S.honks);rateEl.textContent=h>0||bm!==1?fmt(h,1)+'/s'+(bm!==1?' ×'+fmt(bm,1):''):'';btn.classList.toggle('buffed',bm>1||cm>1);btn.setAttribute('aria-label',`Honk the goose. ${Math.floor(S.honks)} honks.`);
+countEl.textContent=fmt(S.honks);rateEl.textContent=h>0||bm!==1?fmt(h*(1-hangryFrac()),1)+'/s'+(bm!==1?' ×'+fmt(bm,1):''):'';btn.classList.toggle('buffed',bm>1||cm>1);btn.setAttribute('aria-label',`Honk the goose. ${Math.floor(S.honks)} honks.`);
 if(panel.hidden)return;P('#gc-honks').textContent=fmt(S.honks);P('#gc-hps').textContent=fmt(h,1)+' per second';P('#gc-click').textContent=fmt(clickPower(),1)+' per click';
 const live=buffs.filter(b=>b.until>Date.now());P('#gc-buffs').innerHTML=live.map(b=>`<span>${esc(b.name)} · ${Math.ceil((b.until-Date.now())/1000)}s</span>`).join('');renderStore()}
 
@@ -356,13 +412,32 @@ function hideTip(){tip.hidden=true;tipFor=null}
 panel.addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||narrow.matches)return;const el=e.target.closest('[data-b]');el?showTip(el):hideTip()});
 panel.addEventListener('pointerleave',hideTip);
 
+/* ---------- the goosepocalypse */
+const doomLayer=document.createElement('div');doomLayer.className='gc-doom-tint';doomLayer.setAttribute('aria-hidden','true');world.appendChild(doomLayer);
+const hangryBox=document.createElement('div');hangryBox.className='gc-hangry-box';world.appendChild(hangryBox);
+let lastStage=-1;
+function applyStage(){const st=stage();for(let i=1;i<=3;i++)document.body.classList.toggle('gp-'+i,st>=i);if(st>S.maxStage){S.maxStage=st;bigBanner('GOOSEPOCALYPSE','STAGE '+st+': '+STAGES[st],['','The geese have awoken. They want bread. They want more.','The flock is displeased. Wrath geese are everywhere now.','Every golden goose is a wrath goose. Hangry geese swarm the floor.'][st]);[110,90,70].forEach((f,i)=>beep(f,.4,'sawtooth',.06,i*.3,false))}if(st!==lastStage){lastStage=st;storeKey=''}}
+function bigBanner(small,big,line){if(bannerEl)bannerEl.remove();const b=bannerEl=document.createElement('div');b.className='gc-banner'+(small==='GOOSEPOCALYPSE'?' doom':'');b.setAttribute('role','status');b.innerHTML=`<small>${esc(small)}</small><b>${esc(big)}</b><span>${esc(line)}</span>`;document.body.appendChild(b);setTimeout(()=>{b.remove();if(bannerEl===b)bannerEl=null},4800);if(!still.matches){world.classList.remove('gc-shake');void world.offsetWidth;world.classList.add('gc-shake')}}
+function renderHangry(){hangryBox.innerHTML=S.hangry.map((e,i)=>`<button type="button" class="gc-hangry" data-h="${i}" style="left:${31+i*3.3}%;top:${i%2?89.5:86.5}%;animation-delay:-${(i*.13).toFixed(2)}s" aria-label="Hangry goose. It has eaten ${fmt(e)} honks. Click to pop it."><svg viewBox="0 0 16 14"><use href="#goose-wrath"/></svg></button>`).join('')}
+hangryBox.addEventListener('click',e=>{const el=e.target.closest('[data-h]');if(!el)return;e.stopPropagation();const hp=(+el.dataset.hit||0)+1;el.dataset.hit=hp;el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit');beep(200+hp*60,.06,'square',.04);if(hp>=3)popHangry(+el.dataset.h,e.clientX,e.clientY)});
+function popHangry(i,x,y){const eaten=S.hangry[i];if(eaten===undefined)return;S.hangry.splice(i,1);const v=eaten*(hasP('hangry1')?1.3:1.1);gain(v);S.popped++;S.popBest=Math.max(S.popBest,v);const el=hangryBox.querySelector(`[data-h="${i}"]`),r=el?.getBoundingClientRect();const px=x??(r?r.left+r.width/2:innerWidth/2),py=y??(r?r.top:innerHeight/2);featherBurst(px,py,12);floatAt(px,py,'+'+fmt(v),'gold');honkSound(.7,.1);renderHangry();storeKey=''}
+function makeOffering(el){if(has('treaty')||!researchStage())return;const c=offeringCost();if(S.honks<c)return deny(el);S.honks-=c;S.pledges++;S.pledgeUntil=Date.now()+(hasP('offering')?3600e3:1800e3);chime();toast('BREAD OFFERING','The flock calms down for '+(hasP('offering')?'an hour':'30 minutes')+'.','bread','gold');applyStage();renderStore(true)}
+function renderDoom(){const box=P('#gc-doom'),rs=researchStage(),st=stage(),n=S.hangry.length;if(!rs&&!n&&!has('treaty')){if(box.innerHTML)box.innerHTML='';return}
+const k=[rs,st,n,has('treaty'),offeringOn()].join('|');if(box.dataset.k!==k){box.dataset.k=k;box.innerHTML=`<div class="gc-doombox${st?' on':''}"><b>${st?'GOOSEPOCALYPSE · '+STAGES[st]:has('treaty')?'GOOSE TREATY SIGNED':offeringOn()?'FLOCK CALMED BY BREAD':'GOOSEPOCALYPSE'}</b><em id="gc-doom-line"></em>${n?`<button type="button" class="gc-btn" data-popall="1">POP ALL ${n} HANGRY GEESE</button>`:''}${rs&&!has('treaty')&&!offeringOn()?`<button type="button" class="gc-btn doom" data-offer="1">BREAD OFFERING · <span id="gc-offer-cost"></span></button>`:''}</div>`}
+const line=P('#gc-doom-line');if(line)line.textContent=(offeringOn()?'Calm for '+fmtTime((S.pledgeUntil-Date.now())/1000)+'. ':'')+(n?`${n}/${maxHangry()} hangry geese are eating ${Math.round(hangryFrac()*100)}% of your honks. They have eaten ${fmt(S.hangry.reduce((a,b)=>a+b,0))}. Pop them to get it back with interest.`:st?`Wrath chance ${Math.round(wrathChance()*100)}%. Hangry geese will start latching onto the floor.`:'');const oc=P('#gc-offer-cost');if(oc){oc.textContent=fmt(offeringCost());oc.parentElement.classList.toggle('poor',S.honks<offeringCost())}}
+/* constellation stars in the sky, one per star earned */
+const starBox=document.createElement('div');starBox.className='gc-starbox';starBox.setAttribute('aria-hidden','true');world.appendChild(starBox);
+const STARPOS=[[68,4],[79,3],[27,11],[86,8],[73,10],[33,5],[23,17],[91,13],[70,17],[30,21],[82,15],[95,4],[12,14],[25,6],[88,20],[76,22],[34,14],[64,12],[17,22],[93,24]];
+function renderStars(){starBox.innerHTML=STARPOS.slice(0,Math.min(S.stars,STARPOS.length)).map(([x,y],i)=>`<i style="left:${x}%;top:${y}%;animation-delay:-${i*.37}s"></i>`).join('')}
+
 /* ---------- news ticker */
 function news(){const t=S.all,pool=['Local goose refuses to explain itself.','Scientists confirm: honk is a renewable resource.','Bread stocks up 400% on goose demand.','Geese report record satisfaction. Everyone else does not.','A goose stole a sandwich. Police have no leads, only bruises.','Breaking: goose. More at 11.','Experts recommend no fewer than 9,000 honks a day.'];
 if(t<100)pool.push('You feel an urge to click the goose.','A goose is watching you. It looks disappointed.','Every honk releases another goose. That is just science.');
 if(t>=1e3)pool.push('Neighbors report "a concerning amount of honking".');
 if(t>=1e6)pool.push('The honk is now visible on weather radar.','Wrath geese spotted. Experts advise: click at your own risk.');
-const flav={pond:'Pond levels rising. Pond is now 40% goose by volume.',farm:'Goose farm workers unionize. Demands: bread.',choir:'Honk Choir tops the charts with "HONK (Extended Mix)".',bakery:'Bakeries cannot keep up. Geese begin baking their own.',temple:'Cult of the Goose gains followers. Followers gain bruises.',mine:'Miners strike honk deep in an asteroid. It honks back.',portal:'Portal technicians report "infinite geese, infinitely annoyed".',timegoose:'The Time Goose honked before you clicked. Causality weeps.',eternal:'The Eternal Goose has left Siege of Legends to work for you. It is not happy.',honkularity:'BREAKING: the universe is now mostly goose.'};
+const flav={pond:'Pond levels rising. Pond is now 40% goose by volume.',farm:'Goose farm workers unionize. Demands: bread.',choir:'Honk Choir tops the charts with "HONK (Extended Mix)".',bakery:'Bakeries cannot keep up. Geese begin baking their own.',temple:'Cult of the Goose gains followers. Followers gain bruises.',mine:'Miners strike honk deep in an asteroid. It honks back.',portal:'Portal technicians report "infinite geese, infinitely annoyed".',timegoose:'The Time Goose honked before you clicked. Causality weeps.',eternal:'The Eternal Goose has left Siege of Legends to work for you. It is not happy.',honkularity:'BREAKING: the universe is now mostly goose.',vat:'Cloned geese demand their own cloned bread.',prism:'Bread Prism accidentally turns the sun into a baguette. Briefly.',fate:'Engine of Fate confirms: you were always going to click the goose.',multiverse:'Visitors from another universe report: their geese are worse.'};
 for(const k in flav)if(own(k))pool.push(flav[k],flav[k]);
+const gst=stage();if(gst)for(let i=0;i<3*gst;i++)pool.push(pick(['The geese are no longer asking for bread.','Local goose seen staring at a bakery for nine hours straight.','All geese now honk in perfect unison. Experts are deeply uncomfortable.','Hangry geese reported on the arcade floor. Do not make eye contact.','BREAKING: the flock has a list of demands. Item one: bread. Item two: also bread.','Scientists who studied the geese have stopped returning calls.']));if(own('temple')>=6&&!has('res-0'))pool.push('Goose Temple priests whisper about research that should never be done.');
 const hidden=SECRETS.filter(s=>!found.has(s.id));if(hidden.length&&t>=50)for(let i=0;i<3;i++)pool.push('RUMOR: '+pick(hidden).hint);
 const sp=P('#gc-ticker span');sp.textContent=pick(pool);sp.classList.remove('in');void sp.offsetWidth;sp.classList.add('in')}
 
@@ -377,8 +452,8 @@ new MutationObserver(()=>{const c=$('content');if(!c)return;if(c.querySelector('
 
 /* ---------- main loop */
 let lastTick=performance.now(),sec=0,nextRunner=0,nextFlock=Date.now()+rand(5e3,15e3),nextParty=Date.now()+2e4,nextEternal=Date.now()+rand(15e3,30e3),nextNews=0;
-function tick(){const now=performance.now(),dt=Math.min((now-lastTick)/1000,86400);lastTick=now;const h=hps();if(h>0){gain(h*dt);const bm=buffMult('prod');B.forEach(b=>{const o=own(b.id);if(o)S.made[b.id]=(S.made[b.id]||0)+unitHps(b)*o*bm*dt})}ui();
-sec+=dt;if(sec<1)return;sec=0;const t=Date.now();buffs=buffs.filter(b=>b.until>t);
+function tick(){const now=performance.now(),dt=Math.min((now-lastTick)/1000,86400);lastTick=now;const h=hps();if(h>0){const n=S.hangry.length;gain(h*(1-hangryFrac())*dt);if(n){const per=h*.05*n*dt;for(let i=0;i<n;i++)S.hangry[i]+=per}const bm=buffMult('prod');B.forEach(b=>{const o=own(b.id);if(o)S.made[b.id]=(S.made[b.id]||0)+unitHps(b)*o*bm*dt})}ui();
+sec+=dt;if(sec<1)return;sec=0;const t=Date.now();buffs=buffs.filter(b=>b.until>t);applyStage();{const st=stage();if(st&&!document.hidden&&S.hangry.length<maxHangry()&&Math.random()<.004*st*(1+Math.min(1,dt))){S.hangry.push(0);renderHangry();honkSound(.5,.08);storeKey=''}}
 ACH.forEach(a=>{if(!ach.has(a.id)&&a.test()){ach.add(a.id);toast('TROPHY: '+a.name,a.desc);beep(1047,.08,'square',.03,0,false);beep(1319,.1,'square',.03,.08,false);if(tab==='trophies')renderPane()}});
 if(Math.floor(S.honks)===1337)discover('leet');const hr=new Date().getHours();if(hr<4)discover('night');if(t-lastAction>600e3&&h>0&&!document.hidden)discover('patience');
 if(!document.hidden){const n=B.reduce((s,b)=>s+own(b.id),0);if(t>=nextRunner){if(geese.length<3+Math.sqrt(n)*3)spawn();nextRunner=t+6000/(1+Math.sqrt(n)/2)*rand(.6,1.4)}
@@ -392,7 +467,7 @@ setInterval(tick,100);
 setInterval(save,5000);addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
 
 /* ---------- boot */
-load();applyTiers();
+load();applyTiers();renderHangry();renderStars();lastStage=stage();
 if(hadSave){const away=(Date.now()-S.last)/1000;if(away>60){const v=baseHps()*Math.min(away,hasP('restful2')?604800:259200)*Math.min(1,(has('nightshift')?.75:.25)+(hasP('restful')?.25:0));if(v>=1){gain(v);setTimeout(()=>toast('WELCOME BACK','While you were away ('+fmtTime(away)+') your flock honked '+fmt(v)+' times.','goose'),1200)}}}
 ui(true);
 for(let i=0;i<3;i++)setTimeout(spawn,400+i*1300);
